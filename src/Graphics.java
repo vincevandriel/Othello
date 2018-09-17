@@ -31,8 +31,8 @@ public class Graphics implements Core{
             public void mouseClicked(MouseEvent e) {
 
                 //Gets coordinates of mouse click in the frame & the size of the frame (changes with resizing)
-                int x=e.getX();
-                int y=e.getY();
+                int x = e.getX();
+                int y = e.getY();
                 Dimension size = frame.getContentPane().getSize();
                 Dimension mouseCoord = new Dimension(x,y);
 
