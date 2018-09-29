@@ -17,6 +17,8 @@ public class Window {
 
     public void displayBoard(Board board){
         frame.setLayout(new BorderLayout());
+        Dimension size = new Dimension(477,500);
+        frame.setPreferredSize(size);
         frame.add(board);
         frame.pack();
     }
