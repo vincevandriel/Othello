@@ -119,7 +119,6 @@ public class Rules {
      **/
     public int[][] flip (int[][] board, double x, double y, int currentColour){
         if(currentColour == 0){
-            System.out.println("its white!");
             currentColour = 2;
         }else{
             currentColour = 1;
@@ -129,8 +128,6 @@ public class Rules {
                 if (!(i == 0 && i == j)) {
                     int amount = checkDirection(board, x, y, i, j, currentColour);
                     if (amount != 0) {
-                        System.out.println(i);
-                        System.out.println(j);
                         int currentX = (int)x + i;
                         int currentY = (int)y + j;
                         for (int k = 0; k < amount; k++) {
