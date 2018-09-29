@@ -16,7 +16,6 @@ public class State {
     public void placeTile(int x, int y, int tile){
         board[size*y + x] = tile;
         numTiles++;
-
     }
 
     public int getTileIdAt(int x, int y){
@@ -36,4 +35,25 @@ public class State {
         return tiles;
     }
 
+    public int[][] convertBoard2D(int[] board){ //convert to 2D array
+        int[][] board2D = new int[size][size];
+        int counter = 0;
+        for(int i = 0; i<size; i++){
+            for(int j = 0; j<size; j++){
+                board2D[i][j] = board[counter];
+                counter++;
+            }
+        }
+        return board2D;
+    }
+
+    public void convertBoard1D(int[] board2D){ //convert back to 1D array
+        int counter = 0;
+        for(int i = 0; i<size; i++) {
+            for (int j = 0; j < size; j++) {
+                board[counter] = board2D[i][j];
+                counter++;
+            }
+        }
+    }
 }
