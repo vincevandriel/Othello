@@ -113,6 +113,7 @@ public class Board extends JPanel{
         @Override
         public void mouseClicked(MouseEvent e) {
             Dimension board_pos = translateToBoardPosition(e.getX(), e.getY());
+            System.out.println(board_pos.width +", "+board_pos.height);
             if (listener != null && board_pos != null) {
                 for(Consumer<Dimension> c : listener) {
                     c.accept(board_pos);
