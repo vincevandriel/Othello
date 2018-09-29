@@ -25,7 +25,6 @@ public class BoardController{
     }
     int tile = 1; //black starts first
     private void boardClickHandler(Dimension pos){
-        rules.pront(board2D);
         double x = pos.getHeight();
         double y = pos.getWidth();
         int[][] tempBoard2D = rules.checkMoves(board2D, tile, x, y);
