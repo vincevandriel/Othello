@@ -25,7 +25,7 @@ public class Board extends JPanel{
         super();
         if(background == null){
             try{
-            background = ImageIO.read(new File("assets\\Othello_Board.png"));
+            background = ImageIO.read(new File("assets/Othello_Board.png"));
             } catch (IOException e){
                 System.out.println("Board loading failed...");
             }
@@ -33,13 +33,12 @@ public class Board extends JPanel{
         if(tileImages == null){
             tileImages = new Image[2];
             try{
-                tileImages[0] = ImageIO.read(new File("assets\\WhiteTile.png"));
-                tileImages[1] = ImageIO.read(new File("assets\\BlackTile.png"));
+                tileImages[0] = ImageIO.read(new File("assets/WhiteTile.png"));
+                tileImages[1] = ImageIO.read(new File("assets/BlackTile.png"));
             } catch (IOException e){
                 System.out.println("Tile loading failed...");
             }
         }
-
         this.setMinimumSize(size);
         this.setPreferredSize(size);
         this.setSize(size);
@@ -82,6 +81,14 @@ public class Board extends JPanel{
 
     public void addTile(Tile tile){
         tiles.add(tile);
+    }
+
+    public void addTiles(ArrayList<Tile> tileCollection){
+        tiles.clear();
+        for(int i = 0; i<tileCollection.size(); i++){
+            tiles.add(tileCollection.get(i));
+        }
+        repaint();
     }
 
     public void addBoardClickEventListener(Consumer<Dimension> listener){
