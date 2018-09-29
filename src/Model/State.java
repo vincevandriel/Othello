@@ -1,5 +1,5 @@
 package Model;
-
+import Controller.Rules;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -7,16 +7,27 @@ public class State {
     private int[] board;
     private int numTiles;
     private int size;
+    private Rules rules;
+    private int[][] board2D;
     public State(int size){
+        rules = new Rules();
         board = new int[size * size];
         numTiles = 0;
         this.size = size;
     }
 
-    public void placeTile(int x, int y, int tile){
-        board[size*y + x] = tile;
-        numTiles++;
-    }
+    /*public void placeTile(int x, int y, int tile){
+        board2D = convertBoard2D(board);
+        board2D = rules.checkMoves(board2D, 1, x, y);
+        if(board2D == null){
+            System.out.println("illegal move, try again");
+        }else{
+            board[size*y + x] = tile;
+            board2D = rules.flip(board2D, x, y, 1);
+            convertBoard1D(board2D);
+            numTiles++;
+        }
+    }*/
 
     public int getTileIdAt(int x, int y){
         return board[size*y + x];
@@ -55,5 +66,21 @@ public class State {
                 counter++;
             }
         }
+    }
+
+    public ArrayList<Tile> convertToCollection(int[][] board){
+        ArrayList<Tile> result = new ArrayList<>();
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[0].length; j++) {
+                if(board[i][j] != 0 || board[i][j] != 3) {
+                    if(board[i][j] == 2){
+                        result.add(new Tile(new Dimension(j, i), board[i][j]-2));
+                    }else if(board[i][j] == 1){
+                        result.add(new Tile(new Dimension(j, i), board[i][j]));
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
