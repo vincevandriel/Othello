@@ -69,14 +69,14 @@ public class Rules {
                 for (int j = -1; j < 2; j++) {
                     int xCoor = opponentSpots.get(counter)[0];
                     int yCoor = opponentSpots.get(counter)[1];
-                    if (board[xCoor + i][yCoor + j] == 0) {
+                    if (((xCoor + i) >= 0) && ((xCoor + i) < board.length) && ((yCoor + j) >= 0) && ((yCoor + j) < board[0].length) && board[xCoor + i][yCoor + j] == 0) {
                         int temp_i = -1 * i;
                         int temp_j = -1 * j;
                         while (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < board.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < board[0].length) && (board[xCoor + temp_i][yCoor + temp_j] == opponentColor)) {
                             xCoor += temp_i;
                             yCoor += temp_j;
                         }
-                        if (board[xCoor + temp_i][yCoor + temp_j] == color) {
+                        if (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < board.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < board[0].length) && board[xCoor + temp_i][yCoor + temp_j] == color) {
                             board[opponentSpots.get(counter)[0]+i][opponentSpots.get(counter)[1]+j] = 3;
                         }
                     }
@@ -166,12 +166,12 @@ public class Rules {
             return 0;
         }
 
-        while (currentX >= 0 && currentX <= board.length && currentY >= 0 && currentY <= board.length && board[currentX][currentY] == opposingColour){
+        while (currentX >= 0 && currentX < board.length && currentY >= 0 && currentY < board.length && board[currentX][currentY] == opposingColour){
             amount++;
             currentX += xDirection;
             currentY += yDirection;
         }
-        if(board[currentX][currentY] == 0){
+        if((currentX >= 0 && currentX < board.length && currentY >= 0 && currentY < board.length && board[currentX][currentY] == 0) || (currentX < 0 || currentX >= board.length || currentY < 0 || currentY >= board.length)){
             return 0;
         }
         return amount;
