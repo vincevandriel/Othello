@@ -84,7 +84,7 @@ public class Rules {
             }
             counter++;
         }
-        if(board[(int)x][(int)y] == 3){ //check if made move is legal
+        if(((x == -1) & (y == -1)) || board[(int)x][(int)y] == 3){ //check if made move is legal
             return board;
         }else{
             return null;
