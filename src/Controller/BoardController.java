@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BoardController{
-    private boolean legalMove;
+    private boolean opponentTurn;
+    private boolean gameDone;
     private Board board;
     private State state;
     private Rules rules;
@@ -19,6 +20,7 @@ public class BoardController{
     private int[][] board2D;
 
     public void start(Board board){
+        gameDone = false;
         Scanner in = new Scanner(System.in);
         System.out.println("Bot - press 0");
         System.out.println("No Bot - press 1");
@@ -38,8 +40,8 @@ public class BoardController{
         double x = pos.getHeight();
         double y = pos.getWidth();
         int[][] tempBoard2D = rules.checkMoves(board2D, tile, x, y);
-        if (tempBoard2D != null) {
-            legalMove = true;
+        if(rules.moveStatus(tempBoard2D, (int)x, (int)y) == 1 && gameDone == false){
+            opponentTurn = true;
             board2D = tempBoard2D;
             board2D = rules.clear3s(board2D); //clear possible legal spots (marked as 3s)
             if (tile == 0) { //change tile on 2D board before flipping tiles
@@ -57,28 +59,44 @@ public class BoardController{
             } else {
                 tile = 1;
             }
-            tempBoard2D = board2D;
-        } else {
-            legalMove = false;
-            System.out.println("Illegal move, try again.");
+            if(board.getTiles().size() == 64){
+                gameDone = true;
+                System.out.println("GAME FINISHED");
+                rules.countTiles(board2D);
+            }
+        } else if(gameDone == false){
+            if(rules.moveStatus(tempBoard2D, (int)x, (int)y) == 0){
+                System.out.println("NO MOVES AVAILABLE FOR YOU - switch turn to opponent.");
+                opponentTurn = true;
+            }else{
+                System.out.println("Illegal move, try again.");
+                opponentTurn = false;
+            }
         }
 
-        if (botButton == 0 && legalMove == true) {
+        if (botButton == 0 && opponentTurn == true && gameDone == false) {
             tempBoard2D = rules.checkMoves(board2D, tile, -1, -1);
             bot = new SimpleAI(); //pass on board with available spots
-            System.out.println("tempBoard2D" + tempBoard2D.length);
-            rules.pront(tempBoard2D);
             tempBoard2D = bot.pickMove(tempBoard2D, tile);
-            tempBoard2D = rules.clear3s(tempBoard2D);
-            tiles = state.convertToCollection(tempBoard2D);
-            board.addTiles(tiles); //add the new move and repaint
-            tempBoard2D = rules.flip(tempBoard2D, bot.getX(), bot.getY(), tile);
-            tiles = state.convertToCollection(tempBoard2D);
-            board.addTiles(tiles); //add flipped tiles and repaint
+            if(tempBoard2D == null){
+                System.out.println("NO MOVES AVAILABLE FOR AI - switch turn to opponent.");
+            }else {
+                tempBoard2D = rules.clear3s(tempBoard2D);
+                tiles = state.convertToCollection(tempBoard2D);
+                board.addTiles(tiles); //add the new move and repaint
+                tempBoard2D = rules.flip(tempBoard2D, bot.getX(), bot.getY(), tile);
+                tiles = state.convertToCollection(tempBoard2D);
+                board.addTiles(tiles); //add flipped tiles and repaint
+            }
             if (tile == 1) {
                 tile = 0;
             } else {
                 tile = 1;
+            }
+            if(board.getTiles().size() == 64){
+                gameDone = true;
+                System.out.println("GAME FINISHED");
+                rules.countTiles(board2D);
             }
         }
     }
