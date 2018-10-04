@@ -84,11 +84,7 @@ public class Rules {
             }
             counter++;
         }
-        if(((x == -1) & (y == -1)) || board[(int)x][(int)y] == 3){ //check if made move is legal
-            return board;
-        }else{
-            return null;
-        }
+        return board;
     }
 
     /**
@@ -186,5 +182,47 @@ public class Rules {
             }
         }
         return board;
+    }
+
+    public int moveStatus(int[][] board, int x, int y){
+        int counter = 0;
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board[0].length; j++){
+                if(board[i][j] == 3){
+                    counter++;
+                }
+            }
+        }
+        if(counter == 0){
+            return 0; // no possible moves
+        }
+        if(board[x][y] == 3){
+            return 1; //move is legal
+        }
+        if(board[x][y] != 3 && counter>0){
+            return -1; //move not legal
+        }
+        return -100000;
+    }
+
+    public void countTiles(int[][] board){
+        int counterBlack = 0;
+        int counterWhite = 0;
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board[0].length; j++){
+                if(board[i][j] == 1){
+                    counterBlack++;
+                }else{
+                    counterWhite++;
+                }
+            }
+        }
+        if(counterBlack>counterWhite){
+            System.out.println("Winner is player with Black tiles!");
+        }else{
+            System.out.println("Winner is player with White tiles!");
+        }
+        System.out.println("Black tiles - " + counterBlack);
+        System.out.println("White tiles - " + counterWhite);
     }
 }
