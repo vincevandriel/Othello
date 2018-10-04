@@ -16,6 +16,8 @@ public class State {
         this.size = size;
     }
 
+    //I just made this comment to check if my Github works
+
     /*public void placeTile(int x, int y, int tile){
         board2D = convertBoard2D(board);
         board2D = rules.checkMoves(board2D, 1, x, y);
