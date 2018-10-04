@@ -35,7 +35,7 @@ public class BoardController{
         board.addTiles(tiles);
         board.addBoardClickEventListener(this::boardClickHandler);
     }
-    int tile = 1; //black starts first
+    int tile = 1; //player with black tiles starts first
     private void boardClickHandler(Dimension pos) {
         double x = pos.getHeight();
         double y = pos.getWidth();
