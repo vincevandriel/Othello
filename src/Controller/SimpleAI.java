@@ -16,11 +16,20 @@ public class SimpleAI {
             tile = 2;
         }
         ArrayList<int[]> list = findMoves(board);
-        int random = y.nextInt((list.size()-1)) + 1; //number from 1 to # legal moves
-         this.x_coor = list.get(random)[0];
-         this.y_coor = list.get(random)[1];
-        board[x_coor][y_coor] = tile;
-        return board;
+        int random;
+        if(list == null){
+            return null;
+        }else {
+            if(list.size() == 1){
+                random = 0;
+            }else {
+                random = y.nextInt(list.size() - 1); //number from 1 to # legal moves
+            }
+            this.x_coor = list.get(random)[0];
+            this.y_coor = list.get(random)[1];
+            board[x_coor][y_coor] = tile;
+            return board;
+        }
     }
 
     public ArrayList<int[]> findMoves(int[][] board){
@@ -34,6 +43,9 @@ public class SimpleAI {
                     moves.add(position);
                 }
             }
+        }
+        if(moves.size() == 0){
+            return null;
         }
         return moves;
     }
