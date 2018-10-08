@@ -16,6 +16,20 @@ public class State {
         this.size = size;
     }
 
+    public int[] scanBoard() {
+        int[] result = new int[2];
+        for(int i = 0; i < board2D.length; i++) {
+            for(int j = 0; j < board2D[0].length; j++) {
+                if(board2D[i][j] == 1) {
+                    result[0] += 1;
+                } else if(board2D[i][j] == 2){
+                    result[1] += 1;
+                }
+            }
+        }
+        return result;
+    }
+
     /*public void placeTile(int x, int y, int tile){
         board2D = convertBoard2D(board);
         board2D = rules.checkMoves(board2D, 1, x, y);
