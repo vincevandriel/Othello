@@ -30,58 +30,6 @@ public class State {
         return result;
     }
 
-    /*public void placeTile(int x, int y, int tile){
-        board2D = convertBoard2D(board);
-        board2D = rules.checkMoves(board2D, 1, x, y);
-        if(board2D == null){
-            System.out.println("illegal move, try again");
-        }else{
-            board[size*y + x] = tile;
-            board2D = rules.flip(board2D, x, y, 1);
-            convertBoard1D(board2D);
-            numTiles++;
-        }
-    }*/
-
-    public int getTileIdAt(int x, int y){
-        return board[size*y + x];
-    }
-
-    public ArrayList<Tile> listOccupiedTiles(){
-        ArrayList<Tile> tiles = new ArrayList<>();
-        for(int x = size; x-- > 0;){
-            for(int y = size; y-- > 0;){
-                int tileId = getTileIdAt(x,y);
-                if(tileId > 0){
-                    tiles.add(new Tile(new Dimension(x, y), tileId));
-                }
-            }
-        }
-        return tiles;
-    }
-
-    public int[][] convertBoard2D(int[] board){ //convert to 2D array
-        int[][] board2D = new int[size][size];
-        int counter = 0;
-        for(int i = 0; i<size; i++){
-            for(int j = 0; j<size; j++){
-                board2D[i][j] = board[counter];
-                counter++;
-            }
-        }
-        return board2D;
-    }
-
-    public void convertBoard1D(int[][] board2D){ //convert back to 1D array
-        int counter = 0;
-        for(int i = 0; i<size; i++) {
-            for (int j = 0; j < size; j++) {
-                board[counter] = board2D[i][j];
-                counter++;
-            }
-        }
-    }
-
     public ArrayList<Tile> convertToCollection(int[][] board){
         ArrayList<Tile> result = new ArrayList<>();
         for(int i = 0; i < board.length; i++) {

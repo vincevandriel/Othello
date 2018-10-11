@@ -19,12 +19,12 @@ public class BoardController{
     private SimpleAI bot;
     private int[][] board2D;
 
-    public void start(Board board){
+    public void start(Board board, int player1, int player2){
         gameDone = false;
         Scanner in = new Scanner(System.in);
         System.out.println("Bot - press 0");
         System.out.println("No Bot - press 1");
-        botButton = in.nextInt();
+        botButton = player2;
         in.close();
         this.board = board;
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
@@ -40,7 +40,7 @@ public class BoardController{
         double x = pos.getHeight();
         double y = pos.getWidth();
         int[][] tempBoard2D = rules.checkMoves(board2D, tile, x, y);
-        if(rules.moveStatus(tempBoard2D, (int)x, (int)y) == 1 && gameDone == false){
+        if(rules.moveStatus(tempBoard2D, (int)x, (int)y) == 1 && !gameDone){
             opponentTurn = true;
             board2D = tempBoard2D;
             board2D = rules.clear3s(board2D); //clear possible legal spots (marked as 3s)
@@ -64,7 +64,7 @@ public class BoardController{
                 System.out.println("GAME FINISHED");
                 rules.countTiles(board2D);
             }
-        } else if(gameDone == false){
+        } else if(!gameDone){
             if(rules.moveStatus(tempBoard2D, (int)x, (int)y) == 0){
                 System.out.println("NO MOVES AVAILABLE FOR YOU - switch turn to opponent.");
                 opponentTurn = true;
@@ -74,7 +74,7 @@ public class BoardController{
             }
         }
 
-        if (botButton == 0 && opponentTurn == true && gameDone == false) {
+        if (botButton == 0 && opponentTurn && !gameDone) {
             tempBoard2D = rules.checkMoves(board2D, tile, -1, -1);
             bot = new SimpleAI(); //pass on board with available spots
             tempBoard2D = bot.pickMove(tempBoard2D, tile);
