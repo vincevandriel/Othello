@@ -3,6 +3,7 @@ package Controller;
 import Model.State;
 import Model.Tile;
 import View.Board;
+import View.Menu;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,13 +20,17 @@ public class BoardController{
     private SimpleAI bot;
     private int[][] board2D;
 
-    public void start(Board board){
+    public void start(Board board, int player1, int player2){
         gameDone = false;
+
         Scanner in = new Scanner(System.in);
         System.out.println("Bot - press 0");
         System.out.println("No Bot - press 1");
         botButton = in.nextInt();
         in.close();
+
+        botButton = player2;
+
         this.board = board;
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
         state = new State(board.getBlockSize());
