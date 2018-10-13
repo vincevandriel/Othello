@@ -75,12 +75,15 @@ public class BoardController{
         }
 
         if (botButton == 0 && opponentTurn == true && gameDone == false) {
+            int[][] stateBoard = board2D; //copy for state tree
             tempBoard2D = rules.checkMoves(board2D, tile, -1, -1);
+            TreeNode<Integer> currentState = new TreeNode<>(-5,-5, null);
+            currentState.addChildren(rules.getCoordinateList());
             bot = new SimpleAI(); //pass on board with available spots
             tempBoard2D = bot.pickMove(tempBoard2D, tile);
             if(tempBoard2D == null){
                 System.out.println("NO MOVES AVAILABLE FOR AI - switch turn to opponent.");
-            }else {
+            }else{
                 tempBoard2D = rules.clear3s(tempBoard2D);
                 tiles = state.convertToCollection(tempBoard2D);
                 board.addTiles(tiles); //add the new move and repaint
