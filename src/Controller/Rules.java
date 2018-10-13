@@ -8,6 +8,8 @@ import java.util.Collection;
 
 public class Rules {
 
+    ArrayList<TreeNode<Integer>> spotsCoordinates = new ArrayList<>();
+
     public int[][] setupBoard(int[][] board) {
         int half = board.length/2;
         board[half - 1][half - 1] = 1;
@@ -78,6 +80,8 @@ public class Rules {
                         }
                         if (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < board.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < board[0].length) && board[xCoor + temp_i][yCoor + temp_j] == color) {
                             board[opponentSpots.get(counter)[0]+i][opponentSpots.get(counter)[1]+j] = 3;
+                            int[] coordinates = new int[2];
+                            spotsCoordinates.add(new TreeNode<Integer>(opponentSpots.get(counter)[0]+i, opponentSpots.get(counter)[1]+j, null));
                         }
                     }
                 }
@@ -224,5 +228,9 @@ public class Rules {
         }
         System.out.println("Black tiles - " + counterBlack);
         System.out.println("White tiles - " + counterWhite);
+    }
+
+    public ArrayList<TreeNode<Integer>> getCoordinateList(){
+        return spotsCoordinates;
     }
 }
