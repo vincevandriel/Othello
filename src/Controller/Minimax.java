@@ -13,14 +13,6 @@ public class Minimax<T>{
 
     }
 
-    public TreeNode<T> node(TreeNode<T> parent, int depth){
-        if(depth>0){
-            depth--;
-        }
-        int nextTurn;
-
-        return parent; //this is wrong change it
-    }
 }
 
 //need to create a copy of the game
