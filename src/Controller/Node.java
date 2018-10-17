@@ -28,12 +28,16 @@ public class Node {
     public int getTile() {
         return tile;
     }
-    public void addChildren(List<Node> children){ //checked
-        for(int i = 0; i<children.size(); i++){
+    public void setParent(Node parent){ //checked
+        this.parent = parent;
+        // Finish this method
+    }
+    public void addChildren(List<Node> children) { //checked
+        for (int i = 0; i < children.size(); i++) {
             children.get(i).setParent(this);
             this.children.add(children.get(i));
         }
 
 
-
+    }
 }

@@ -9,9 +9,6 @@ public class Minimax<T>{
         int depth = 5;
     }
 
-    public BoardController CurrentState(){          //wherever the current state of the game is stored
-
-    }
 
 }
 
