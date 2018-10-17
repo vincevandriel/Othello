@@ -32,10 +32,11 @@ public class Root {
                 done = true;
             }
         }
+
         Rules rules = new Rules();
         int[][] board = currentBoard;
         for(int i = 0; i < moves.size(); i++) {
-            currentBoard = rules.flip(currentBoard, moves.get(0).getX(), moves.get(0).getY(), moves.getTile());
+            currentBoard = rules.flip(currentBoard, moves.get(0).getX(), moves.get(0).getY(), moves.get(0).getTile());
             moves.remove(0);
         }
         return currentBoard;
