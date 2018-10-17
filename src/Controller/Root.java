@@ -26,7 +26,7 @@ public class Root {
         while(!done) {
             moves.add(0, currentNode);
 
-            if(currentNode.getParent != null) {
+            if(currentNode.getParent() != null) {
                 currentNode = currentNode.getParent();
             } else {
                 done = true;
