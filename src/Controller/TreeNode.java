@@ -56,7 +56,7 @@ public class TreeNode<T>{
         // Finish this method
     }
 
-    private void setParent(TreeNode<T> parent){ //checked
+    public void setParent(TreeNode<T> parent){ //checked
         this.parent = parent;
         // Finish this method
     }
