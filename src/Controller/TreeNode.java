@@ -17,7 +17,6 @@ public class TreeNode<T>{
         this.y = y;
         setParent(parent);
     }
-
     public TreeNode<T> getRoot(){ //checked
         TreeNode<T> tempParent = parent;
         while(tempParent.getParent() != null){

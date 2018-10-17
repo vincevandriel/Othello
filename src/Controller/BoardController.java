@@ -19,7 +19,7 @@ public class BoardController{
     private SimpleAI bot;
     private int[][] board2D;
 
-    public void start(Board board){
+    public void start(Board board, int player1, int player2){
         gameDone = false;
         Scanner in = new Scanner(System.in);
         System.out.println("Bot - press 0");
@@ -102,5 +102,8 @@ public class BoardController{
                 rules.countTiles(board2D);
             }
         }
+    }
+    public int getTile(){
+        return tile;
     }
 }

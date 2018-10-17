@@ -223,7 +223,11 @@ public class Rules {
         }
         if(counterBlack>counterWhite){
             System.out.println("Winner is player with Black tiles!");
-        }else{
+        }
+        else if(counterBlack==counterWhite){
+            System.out.println("Draw");
+        }
+        else{
             System.out.println("Winner is player with White tiles!");
         }
         System.out.println("Black tiles - " + counterBlack);
