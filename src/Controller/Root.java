@@ -13,23 +13,31 @@ public class Root {
         tile = this.tile;
     }
 
-    public void addChildren(int[][] board, int tile) {
+    public void addChildren(int[][] board) {
         Rules rules = new Rules();
         int[][] tempBoard = rules.checkMoves(board, tile, 0, 0);
-
-        tile = reverseTile(tile);
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[0].length; j++) {
                 if(tempBoard[i][j] == 3) {
-                    children.add(new Node(null, i, j, tile));
+                    children.add(new Node(null, i, j, reverseTile(tile)));
                 }
             }
         }
     }
 
-    public void addChildren() {
-        
+    public void addChildren(Node node) {
+        Rules rules = new Rules();
+        int[][] tempBoard = rules.checkMoves(retrieveBoard(node), node.getTile(), 0, 0);
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[0].length; j++) {
+                if(tempBoard[i][j] == 3) {
+                    children.add(new Node(node, i, j, reverseTile(node.getTile()));
+                }
+            }
+        }
+
     }
 
     public int reverseTile(int tile) {
