@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 public class Root {
     private int[][] board;
+    //current Tile, so 1 = black and 2 = white
     private int tile;
     private ArrayList<Node> children;
 
     public Root(int[][] board,int tile){
-        board = this.board;
-        tile = this.tile;
+        this.board = board;
+        this.tile = tile;
+        children = new ArrayList<Node>();
     }
 
     public void addChildren(int[][] board) {
@@ -33,7 +35,7 @@ public class Root {
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[0].length; j++) {
                 if(tempBoard[i][j] == 3) {
-                    children.add(new Node(node, i, j, reverseTile(node.getTile()));
+                    children.add(new Node(node, i, j, reverseTile(node.getTile())));
                 }
             }
         }
@@ -47,7 +49,6 @@ public class Root {
             return 1;
         }
     }
-
 
     public int[][] retrieveBoard(Node start) {
         ArrayList<Node> moves = new ArrayList<Node>();
