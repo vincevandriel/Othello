@@ -1,19 +1,13 @@
 package Model;
-import Controller.Rules;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class State {
-    private int[] board;
-    private int numTiles;
-    private int size;
-    private Rules rules;
+public class State { //part of the model
+
     private int[][] board2D;
+
     public State(int size){
-        rules = new Rules();
-        board = new int[size * size];
-        numTiles = 0;
-        this.size = size;
+        board2D = new int[size][size];
     }
 
     public int[] scanBoard() {
@@ -28,6 +22,14 @@ public class State {
             }
         }
         return result;
+    }
+
+    public int[][] getCurrentBoard(){
+        return board2D;
+    }
+
+    public void setCurrentBoard(int[][] board2D){
+        this.board2D = board2D;
     }
 
     public ArrayList<Tile> convertToCollection(int[][] board){

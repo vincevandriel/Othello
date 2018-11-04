@@ -1,5 +1,5 @@
 package Controller;
-import View.Board;
+import Model.Rules;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class Root {
 
     public void addChildren(int[][] board) {
         Rules rules = new Rules();
-        int[][] tempBoard = rules.checkMoves(board, tile, 0, 0);
+        int[][] tempBoard = rules.checkMoves(board, tile);
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[0].length; j++) {
@@ -30,7 +30,7 @@ public class Root {
 
     public void addChildren(Node node) {
         Rules rules = new Rules();
-        int[][] tempBoard = rules.checkMoves(retrieveBoard(node), node.getTile(), 0, 0);
+        int[][] tempBoard = rules.checkMoves(retrieveBoard(node), node.getTile());
 
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[0].length; j++) {

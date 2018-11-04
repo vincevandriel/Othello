@@ -1,12 +1,13 @@
-package Controller;
+package Model;
 
+import Controller.TreeNode;
 import Model.Tile;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Rules {
+public class Rules { //part of the model
 
     ArrayList<TreeNode<Integer>> spotsCoordinates = new ArrayList<>();
 
@@ -34,7 +35,7 @@ public class Rules {
 
     public void pront(int[][] board) {
         for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board.length; j++) {
+            for(int j = 0; j < board[0].length; j++) {
                 System.out.print(board[i][j]);
             }
             System.out.println();
@@ -51,12 +52,7 @@ public class Rules {
      *
      * @param color to represent who wants to make the move and therefore find the correct opponent existing tiles
      */
-    public int[][] checkMoves(int[][] board, int color, double x, double y) {
-        if(color == 0){
-            color = 2;
-        }else{
-            color = 1;
-        }
+    public int[][] checkMoves(int[][] board, int color) {
         int opponentColor;
         if (color == 1) {
             opponentColor = 2;
@@ -64,7 +60,7 @@ public class Rules {
             opponentColor = 1;
         }
         ArrayList<int[]> opponentSpots = new ArrayList<>();
-        opponentSpots = findOpponentSpots(board, color, opponentColor);
+        opponentSpots = findOpponentSpots(board, opponentColor);
         int counter = 0;
         while (counter < opponentSpots.size()) {
             for (int i = -1; i < 2; i++) {
@@ -94,12 +90,11 @@ public class Rules {
     /**
      * This method goes through the board and finds the coordinates of the opponent tiles already set on the board.
      * Then all these coordinates are saved into arrays, which are saved at the same time within an arrayList.
-     * @param color to represent who wants to make the move and therefore find the correct opponent existing tiles
      * @param opponentColor to represent the opponent color to the variable "color"
      * @return arrayList containing arrays with coordinates x and y of each opponent tile on the board
      */
 
-    public ArrayList<int[]> findOpponentSpots(int[][] board, int color, int opponentColor){
+    public ArrayList<int[]> findOpponentSpots(int[][] board, int opponentColor){
         ArrayList<int[]> opponentSpots = new ArrayList<>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
@@ -118,11 +113,6 @@ public class Rules {
      * This method is initialized after a piece was placed. It flips the respective pieces of the opponent.
      **/
     public int[][] flip (int[][] board, double x, double y, int currentColour){
-        if(currentColour == 0){
-            currentColour = 2;
-        }else{
-            currentColour = 1;
-        }
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (!(i == 0 && i == j)) {

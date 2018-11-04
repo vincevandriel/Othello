@@ -1,9 +1,10 @@
-package Controller;
+package Model;
 import java.util.ArrayList;
 import java.util.Random;
+import Model.State;
 
 public class SimpleAI {
-
+    private Rules rules = new Rules();
     private Random y;
     private int x_coor;
     private int y_coor;
@@ -11,32 +12,28 @@ public class SimpleAI {
     public SimpleAI(){
         y = new Random();
     }
-    public int[][] pickMove(int[][] board, int tile){
-        if(tile == 0){
-            tile = 2;
-        }
-        ArrayList<int[]> list = findMoves(board);
+    public int[][] pickMove(int[][] board2D, int tile){
+        ArrayList<int[]> list = findMoves(board2D);
         int random;
         if(list == null){
             return null;
-        }else {
-            if(list.size() == 1){
-                random = 0;
-            }else {
-                random = y.nextInt(list.size() - 1); //number from 1 to # legal moves
-            }
-            this.x_coor = list.get(random)[0];
-            this.y_coor = list.get(random)[1];
-            board[x_coor][y_coor] = tile;
-            return board;
         }
+        if(list.size() == 1){
+            random = 0;
+        }else {
+            random = y.nextInt(list.size() - 1); //number from 1 to # legal moves
+        }
+        this.x_coor = list.get(random)[0];
+        this.y_coor = list.get(random)[1];
+        board2D[x_coor][y_coor] = tile;
+        return board2D;
     }
 
-    public ArrayList<int[]> findMoves(int[][] board){
+    public ArrayList<int[]> findMoves(int[][] board2D){
         ArrayList<int[]> moves = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if(board[i][j] == 3){
+        for (int i = 0; i < board2D.length; i++) {
+            for (int j = 0; j < board2D[0].length; j++) {
+                if(board2D[i][j] == 3){
                     int[] position = new int[2];
                     position[0] = i; //x
                     position[1] = j; //y
