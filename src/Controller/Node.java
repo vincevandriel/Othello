@@ -1,24 +1,22 @@
-package Controller;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public class Node {
-   private Node parent;
-   private List<Node> children;
-   private int x;
-   private int y;
-   private int tile;
+    private int x;
+    private int y;
+    private int tile;
+    private Node parent;
+    private ArrayList<Node> children;
 
-    public Node(Node parent, int x, int y, int tile){
-        x = this.x;
-        y = this.y;
-        tile = this.tile;
+    public Node(Node parent, int x, int y, int tile) {
+        this.x = x;
+        this.y = y;
+        this.tile = tile;
+        this.parent = parent;
     }
 
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
@@ -28,12 +26,11 @@ public class Node {
     public int getTile() {
         return tile;
     }
-
-    public void setParent(Node parent){
-        this.parent = parent;
+    public ArrayList<Node> getChildren() {
+        return children;
     }
 
-    public void setChildren(List<Node> children) {
-        this.children =  children;
+    public void addChild(Node child) {
+        children.add(child);
     }
 }
