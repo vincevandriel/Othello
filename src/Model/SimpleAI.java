@@ -12,8 +12,8 @@ public class SimpleAI {
     public SimpleAI(){
         y = new Random();
     }
-    public int[][] pickMove(int[][] board2D, int tile){
-        ArrayList<int[]> list = findMoves(board2D);
+    public int[][] pickMove(int[][] board2D, int tile, Player P1){
+        ArrayList<int[]> list = findMoves(board2D, P1);
         int random;
         if(list == null){
             return null;
@@ -29,7 +29,7 @@ public class SimpleAI {
         return board2D;
     }
 
-    public ArrayList<int[]> findMoves(int[][] board2D){
+    public ArrayList<int[]> findMoves(int[][] board2D, Player P1){
         ArrayList<int[]> moves = new ArrayList<>();
         for (int i = 0; i < board2D.length; i++) {
             for (int j = 0; j < board2D[0].length; j++) {
@@ -41,6 +41,7 @@ public class SimpleAI {
                 }
             }
         }
+        P1.switchTurn();
         if(moves.size() == 0){
             return null;
         }

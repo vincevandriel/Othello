@@ -14,23 +14,19 @@ import java.util.concurrent.TimeUnit;
 
 public class BoardController{
 
-    //private boolean player1Turn;
     private boolean gameDone;
-    private Player player1;
-    private Player player2;
+    private Player P1;
+    private Player P2;
     private Board board; //view
     private State state; //model
     private Rules rules; //model
     private ArrayList<Tile> tiles;
-    //private int botButton;
     private int[][] board2D;
 
-    public void start(Board board, Player player1, Player player2){
-        //player1Turn = true;
-        //gameDone = false;
+    public void start(Board board, Player P1, Player P2){
         this.board = board;
-        this.player1 = player1; //black tiles, bot
-        this.player2 = player2; //white tiles, bot
+        this.P1 = P1; //black tiles, bot
+        this.P2 = P2; //white tiles, bot
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
         state = new State(board.getBlockSize());
         rules = new Rules();
@@ -46,41 +42,45 @@ public class BoardController{
         double x = pos.getHeight();
         double y = pos.getWidth();
 
-        if(player1.isBot() && player2.isBot()){
-            player1.makeMove(state);
+        if(!gameDone) {
+
+            if (P1.isBot() && P2.isBot()) {
+                System.out.println(P1.turnStatus());
+                if (P1.turnStatus()) {
+                    P1.makeMove(state);
+                } else {
+                    P2.makeMove(state);
+                }
+            }
+
+            if (!P1.isBot() && P2.isBot()) {
+                if (P1.turnStatus()) {
+                    P1.makeMove(x, y, state);
+                } else {
+                    P2.makeMove(state);
+                }
+            }
+
+            if (P1.isBot() && !P2.isBot()) {
+                if (P1.turnStatus()) {
+                    P1.makeMove(state);
+                } else {
+                    P2.makeMove(x, y, state);
+                }
+            }
+
+            if (!P1.isBot() && !P2.isBot()) {
+                if (P1.turnStatus()) {
+                    P1.makeMove(x, y, state);
+                } else {
+                    P2.makeMove(x, y, state);
+                }
+            }
+
             tiles = state.convertToCollection(board2D);
             board.addTiles(tiles);
-            player2.makeMove(state);
+            checkGameStatus(); //check for game state
         }
-
-        /* STILL WORKING ON THESE NEXT COMBINATIONS OF PLAYERS, for now test on bot against bot
-
-        if(!player1.isBot() && player2.isBot()){
-            player1.makeMove(x, y, state);
-            tiles = state.convertToCollection(board2D);
-            board.addTiles(tiles);
-            player2.makeMove(state);
-        }
-
-        if(player1.isBot() && !player2.isBot()){
-            player1.makeMove(state);
-            tiles = state.convertToCollection(board2D);
-            board.addTiles(tiles);
-            player2.makeMove(x, y, state);
-        }
-
-        if(!player1.isBot() && !player2.isBot()){
-            player1.makeMove(x, y, state);
-            tiles = state.convertToCollection(board2D);
-            board.addTiles(tiles);
-            player2.makeMove(x, y, state);
-        }
-
-        */
-
-        tiles = state.convertToCollection(board2D);
-        board.addTiles(tiles);
-        checkGameStatus(); //check for game state
     }
 
     public void checkGameStatus(){
