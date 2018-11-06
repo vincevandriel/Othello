@@ -200,29 +200,16 @@ public class Rules { //part of the model
         return -100000;
     }
 
-    public void countTiles(int[][] board){
-        int counterBlack = 0;
-        int counterWhite = 0;
-        for(int i = 0; i<board.length; i++){
-            for(int j = 0; j<board[0].length; j++){
-                if(board[i][j] == 1){
-                    counterBlack++;
-                }else{
-                    counterWhite++;
-                }
-            }
-        }
-        if(counterBlack>counterWhite){
+    public void result(int black, int white){
+        if(black > white){
             System.out.println("Winner is player with Black tiles!");
-        }
-        else if(counterBlack==counterWhite){
+        }else if(black < white) {
+            System.out.println("Winner is player with White tiles!");
+        }else{
             System.out.println("Draw");
         }
-        else{
-            System.out.println("Winner is player with White tiles!");
-        }
-        System.out.println("Black tiles - " + counterBlack);
-        System.out.println("White tiles - " + counterWhite);
+        System.out.println("Black tiles - " + black);
+        System.out.println("White tiles - " + white);
     }
 
     public ArrayList<TreeNode<Integer>> getCoordinateList(){
