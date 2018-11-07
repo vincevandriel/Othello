@@ -48,6 +48,7 @@ public class Root {
                     }
                 }
             }
+            rules.clear3s(board);
         }
 
         //Generates all the children of a given node
@@ -62,7 +63,7 @@ public class Root {
                     }
                 }
             }
-
+            rules.clear3s(board);
         }
 
         public int reverseTile(int tile) {
@@ -96,9 +97,6 @@ public class Root {
             }
 
             for(int i = 0; i < moves.size(); i++) {
-                System.out.println(moves.get(0).getX());
-                System.out.println(moves.get(0).getY());
-                System.out.println(tile);
                 tempBoard[moves.get(0).getX()][ moves.get(0).getY()] = tile;
                 pront(tempBoard);
                 tempBoard = rules.flip(tempBoard, moves.get(0).getX(), moves.get(0).getY(), moves.get(0).getTile());
@@ -116,7 +114,7 @@ public class Root {
         public void pront(int[][] array) {
             for(int i = 0; i < array.length; i++) {
                 for(int j = 0; j < array[0].length; j++) {
-                    System.out.print(board[i][j]);
+                    System.out.print(array[i][j]);
                 }
                 System.out.println();
             }

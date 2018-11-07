@@ -11,5 +11,11 @@ public class TreeTest {
         Root root = new Root(board, 1);
 
         root.print();
+
+        int[] array= new int[2];
+        array[1] = 1;
+        for(int i = 0; i < array.length; i++) {
+            System.out.print(array[i]);
+        }
     }
 }
