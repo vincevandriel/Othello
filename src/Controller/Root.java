@@ -1,3 +1,5 @@
+package Controller;
+
 import Controller.Node;
 import Model.Rules;
 
@@ -7,7 +9,7 @@ public class Root {
     private int[][] board;
     //current Tile, so 1 = black and 2 = white
     private int tile;
-    private final int DEPTH = 5;
+    private final int DEPTH = 1;
     private Rules rules;
     private ArrayList<Node> children;
 
@@ -94,10 +96,30 @@ public class Root {
             }
 
             for(int i = 0; i < moves.size(); i++) {
+                System.out.println(moves.get(0).getX());
+                System.out.println(moves.get(0).getY());
+                System.out.println(tile);
                 tempBoard[moves.get(0).getX()][ moves.get(0).getY()] = tile;
+                pront(tempBoard);
                 tempBoard = rules.flip(tempBoard, moves.get(0).getX(), moves.get(0).getY(), moves.get(0).getTile());
                 moves.remove(0);
             }
             return tempBoard;
+        }
+
+        public void print() {
+            for(int i = 0; i < children.size(); i++) {
+                pront(retrieveBoard(children.get(i)));
+            }
+        }
+
+        public void pront(int[][] array) {
+            for(int i = 0; i < array.length; i++) {
+                for(int j = 0; j < array[0].length; j++) {
+                    System.out.print(board[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
     }
