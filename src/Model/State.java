@@ -5,24 +5,15 @@ import java.util.ArrayList;
 public class State { //part of the model
 
     private int[][] board2D;
+    private int tile;
+    private int x;
+    private int y;
 
     public State(int size){
+        tile = 1;
         board2D = new int[size][size];
     }
 
-    public int[] scanBoard() {
-        int[] result = new int[2];
-        for(int i = 0; i < board2D.length; i++) {
-            for(int j = 0; j < board2D[0].length; j++) {
-                if(board2D[i][j] == 1) {
-                    result[0] += 1;
-                } else if(board2D[i][j] == 2){
-                    result[1] += 1;
-                }
-            }
-        }
-        return result;
-    }
 
     public int[][] getCurrentBoard(){
         return board2D;
@@ -46,5 +37,34 @@ public class State { //part of the model
             }
         }
         return result;
+    }
+
+    public int switchTile() {
+        if (tile == 1) {
+            tile = 2;
+        } else {
+            tile = 1;
+        }
+        return tile;
+    }
+
+    public int getTile(){
+        return tile;
+    }
+
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
     }
 }

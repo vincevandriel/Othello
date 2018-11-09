@@ -2,11 +2,8 @@ package Controller;
 
 import Model.*;
 import View.Board;
-import javax.swing.Timer;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class BoardController {
 
@@ -40,38 +37,15 @@ public class BoardController {
         double x = pos.getHeight();
         double y = pos.getWidth();
 
+        state.setX((int)x);
+        state.setY((int)y);
+
         if (!gameDone) {
 
-            if (P1.isBot() && P2.isBot()) {
-                System.out.println(P1.turnStatus());
-                if (P1.turnStatus()) {
+                if (state.getTile() == 1) {
                     P1.makeMove(state);
                 } else {
                     P2.makeMove(state);
-                }
-            }
-
-            if (!P1.isBot() && P2.isBot()) {
-                if (P1.turnStatus()) {
-                    P1.makeMove(x, y, state);
-                } else {
-                    P2.makeMove(state);
-                }
-            }
-
-            if (P1.isBot() && !P2.isBot()) {
-                if (P1.turnStatus()) {
-                    P1.makeMove(state);
-                } else {
-                    P2.makeMove(x, y, state);
-                }
-            }
-
-            if (!P1.isBot() && !P2.isBot()) {
-                if (P1.turnStatus()) {
-                    P1.makeMove(x, y, state);
-                } else {
-                    P2.makeMove(x, y, state);
                 }
             }
 
@@ -79,7 +53,6 @@ public class BoardController {
             board.addTiles(tiles);
             checkGameStatus(); //check for game state
         }
-    }
 
     public void checkGameStatus() {
         if (board.getTiles().size() == 64) {

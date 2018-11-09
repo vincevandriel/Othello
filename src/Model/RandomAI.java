@@ -1,19 +1,22 @@
 package Model;
 import java.util.ArrayList;
 import java.util.Random;
-import Model.State;
 
-public class SimpleAI {
-    private Rules rules = new Rules();
+public class RandomAI implements Player {
+
     private Random y;
     private int x_coor;
     private int y_coor;
+    private Rules rules;
+    private int tile;
 
-    public SimpleAI(){
+    public RandomAI(int tile){
+        this.tile = tile;
+        rules = new Rules();
         y = new Random();
     }
-    public int[][] pickMove(int[][] board2D, int tile, Player P1){
-        ArrayList<int[]> list = findMoves(board2D, P1);
+    public int[][] pickMove(int[][] board2D, int tile){
+        ArrayList<int[]> list = findMoves(board2D);
         int random;
         if(list == null){
             return null;
@@ -29,7 +32,7 @@ public class SimpleAI {
         return board2D;
     }
 
-    public ArrayList<int[]> findMoves(int[][] board2D, Player P1){
+    public ArrayList<int[]> findMoves(int[][] board2D){
         ArrayList<int[]> moves = new ArrayList<>();
         for (int i = 0; i < board2D.length; i++) {
             for (int j = 0; j < board2D[0].length; j++) {
@@ -41,11 +44,25 @@ public class SimpleAI {
                 }
             }
         }
-        P1.switchTurn();
         if(moves.size() == 0){
             return null;
         }
         return moves;
+    }
+
+    @Override
+    public void makeMove(State currentState) {
+        int[][] board2D = currentState.getCurrentBoard(); //get current state
+        board2D = rules.checkMoves(board2D, tile);
+        board2D = pickMove(board2D, tile);
+        if (board2D == null) {
+            System.out.println("NO MOVES AVAILABLE FOR AI - switch turn to opponent.");
+        } else {
+            board2D = rules.clear3s(board2D); //clear possible legal spots (marked as 3s)
+            board2D = rules.flip(board2D, getX(), getY(), tile);
+            currentState.setCurrentBoard(board2D); //update state after move
+        }
+        currentState.switchTile();
     }
 
     public int getX(){

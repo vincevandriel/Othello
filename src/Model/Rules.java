@@ -178,7 +178,7 @@ public class Rules { //part of the model
         return board;
     }
 
-    public int moveStatus(int[][] board, int x, int y, Player P1){
+    public int moveStatus(int[][] board, int x, int y){
         int counter = 0;
         for(int i = 0; i<board.length; i++){
             for(int j = 0; j<board[0].length; j++){
@@ -191,7 +191,6 @@ public class Rules { //part of the model
             return 0; // no possible moves
         }
         if(board[x][y] == 3){
-            P1.switchTurn(); //puede que de lugar a algun error
             return 1; //move is legal
         }
         if(board[x][y] != 3 && counter>0){
