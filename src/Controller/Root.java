@@ -120,7 +120,7 @@ public class Root {
                 pront(retrieveBoard(children.get(0).getChildren().get(i)));
             }
             */
-            
+
             //System.out.println(children.get(0).getChildren().size());
             for(int i = 0; i < children.get(0).getChildren().get(0).getChildren().size(); i++) {
                 pront(retrieveBoard(children.get(0).getChildren().get(0).getChildren().get(i)));
@@ -128,7 +128,11 @@ public class Root {
 
         }
 
-        public void pront(int[][] array) {
+    public ArrayList<Node> getChildren() {
+        return children;
+    }
+
+    public void pront(int[][] array) {
             for(int i = 0; i < array.length; i++) {
                 for(int j = 0; j < array[0].length; j++) {
                     System.out.print(array[i][j]);
