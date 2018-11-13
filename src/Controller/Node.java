@@ -14,6 +14,7 @@ public class Node {
         this.y = y;
         this.tile = tile;
         this.parent = parent;
+        children = new ArrayList<Node>();
     }
 
     public int getX() {

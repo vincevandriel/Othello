@@ -9,7 +9,7 @@ public class Root {
     private int[][] board;
     //current Tile, so 1 = black and 2 = white
     private int tile;
-    private final int DEPTH = 1;
+    private final int DEPTH = 3;
     private Rules rules;
     private ArrayList<Node> children;
 
@@ -44,6 +44,7 @@ public class Root {
                 for(int j = 0; j < board[0].length; j++) {
                     if(tempBoard[i][j] == 3) {
                         Node tempNode = new Node(null, i, j, reverseTile(tile));
+                        //System.out.println(tile + ": X = " + i + " Y = " + j);
                         children.add(tempNode);
                     }
                 }
@@ -59,11 +60,11 @@ public class Root {
                 for(int j = 0; j < board[0].length; j++) {
                     if(tempBoard[i][j] == 3) {
                         Node tempNode = new Node(node, i, j, reverseTile(node.getTile()));
+                        //System.out.println(node.getTile() + ": X = " + i + " Y = " + j);
                         node.addChild(tempNode);
                     }
                 }
             }
-            rules.clear3s(board);
         }
 
         public int reverseTile(int tile) {
@@ -96,19 +97,35 @@ public class Root {
                 }
             }
 
-            for(int i = 0; i < moves.size(); i++) {
-                tempBoard[moves.get(0).getX()][ moves.get(0).getY()] = tile;
-                pront(tempBoard);
-                tempBoard = rules.flip(tempBoard, moves.get(0).getX(), moves.get(0).getY(), moves.get(0).getTile());
+            int size = moves.size();
+            for(int i = 0; i < size; i++) {
+                tempBoard[moves.get(0).getX()][ moves.get(0).getY()] = reverseTile(moves.get(0).getTile());
+                tempBoard = rules.flip(tempBoard, moves.get(0).getX(), moves.get(0).getY(), reverseTile(moves.get(0).getTile()));
                 moves.remove(0);
             }
             return tempBoard;
         }
 
         public void print() {
+            /*
+            System.out.println(children.size());
             for(int i = 0; i < children.size(); i++) {
                 pront(retrieveBoard(children.get(i)));
             }
+            */
+
+            /*
+            //System.out.println(children.get(0).getChildren().size());
+            for(int i = 0; i < children.get(0).getChildren().size(); i++) {
+                pront(retrieveBoard(children.get(0).getChildren().get(i)));
+            }
+            */
+            
+            //System.out.println(children.get(0).getChildren().size());
+            for(int i = 0; i < children.get(0).getChildren().get(0).getChildren().size(); i++) {
+                pront(retrieveBoard(children.get(0).getChildren().get(0).getChildren().get(i)));
+            }
+
         }
 
         public void pront(int[][] array) {
