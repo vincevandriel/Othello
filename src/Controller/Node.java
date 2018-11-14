@@ -6,6 +6,7 @@ public class Node {
     private int x;
     private int y;
     private int tile;
+    private int evalValue;
     private Node parent;
     private ArrayList<Node> children;
 
@@ -35,5 +36,20 @@ public class Node {
 
     public void addChild(Node child) {
         children.add(child);
+    }
+
+    public void setEvalValue(int evalValue){
+        this.evalValue = evalValue;
+    }
+
+    public int getEvalValue(){
+        return evalValue;
+    }
+
+    public int[] getCoords(){
+        int[] coords = new int[2];
+        coords[0] = this.x;
+        coords[1] = this.y;
+        return coords;
     }
 }
