@@ -18,10 +18,10 @@ public class Root {
         this.tile = tile;
         rules = new Rules();
         children = new ArrayList<Node>();
-        generateTree();
     }
 
     public void generateTree() {
+        children = null;
         generateRootChildren();
         ArrayList<Node> currentChildren = new ArrayList<Node>(children);
 
