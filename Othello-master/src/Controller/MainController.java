@@ -1,0 +1,29 @@
+package Controller;
+
+import View.Board;
+import View.Window;
+import View.Menu;
+import Model.*;
+
+import java.awt.*;
+
+public class MainController {
+  public void start(Window window){
+
+        Menu menu = new Menu(window);
+        window.displayMenu(menu);
+        window.setVisible(true);
+
+    }
+
+    private static Dimension DEFAULT_BOARD_SIZE = new Dimension(250,250);
+    public void start(Window window){
+        Player P1 = new Human(1);
+        Player P2 = new AlphaBeta();
+        Board board = new Board(DEFAULT_BOARD_SIZE);
+        window.displayBoard(board);
+        window.setVisible(true);
+        BoardController boardController = new BoardController();
+        boardController.start(board,P1,P2);
+    }
+}
