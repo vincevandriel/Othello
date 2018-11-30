@@ -9,11 +9,12 @@ public class Root {
     private int[][] board;
     //current Tile, so 1 = black and 2 = white
     private int tile;
-    private final int DEPTH = 5;
+    private int depth;
     private Rules rules;
     private ArrayList<Node> children;
 
-    public Root(int[][] board, int tile) {
+    public Root(int[][] board, int tile, int depth) {
+        this.depth = depth;
         this.board = board;
         this.tile = tile;
         rules = new Rules();
@@ -26,7 +27,7 @@ public class Root {
         ArrayList<Node> currentChildren = new ArrayList<Node>(children);
 
         //DEPTH - 1 because the children of the root already exist
-        for (int i = 0; i < DEPTH - 1; i++) {
+        for (int i = 0; i < depth - 1; i++) {
             int size = currentChildren.size();
             for (int j = 0; j < size; j++) {
                 generateNodeChildren(currentChildren.get(0));
@@ -151,7 +152,7 @@ public class Root {
     }
 
     public int getDepth(){
-        return DEPTH;
+        return depth;
     }
 
     public int getTile(){

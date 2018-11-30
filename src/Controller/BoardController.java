@@ -31,7 +31,7 @@ public class BoardController {
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
         board.addBoardClickEventListener(this::boardClickHandler);
-        root = new Root(board2D, 1);
+        root = new Root(board2D, 1, 5);
     }
 
     private void boardClickHandler(Dimension pos) {

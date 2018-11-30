@@ -14,7 +14,7 @@ public class TreeTest {
         Rules rules = new Rules();
         int[][] board = new int[8][8];
         board = rules.setupBoard(board);
-        Root root = new Root(board, 1);
+        Root root = new Root(board, 1, 5);
 
         root.print();
     }
