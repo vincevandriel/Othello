@@ -18,10 +18,10 @@ public class BoardController {
     private int[][] board2D;
     private TileCounter tileCounter;
 
-    public void start(Board board, Player P1, Player P2) {
+    public void start(Board board) {
         this.board = board;
-        this.P1 = P1; //black tiles, bot
-        this.P2 = P2; //white tiles, bot
+        P1 = new AlphaBeta(); //black tiles, bot
+        P2 = new RandomAI(2); //white tiles, bot
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
         state = new State(board.getBlockSize());
         rules = new Rules();
