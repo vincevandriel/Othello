@@ -21,7 +21,7 @@ public class BoardController {
     public void start(Board board) {
         this.board = board;
         P1 = new AlphaBeta(); //black tiles, bot
-        P2 = new RandomAI(2); //white tiles, bot
+        P2 = new RandomAI(); //white tiles, bot
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
         state = new State(board.getBlockSize());
         rules = new Rules();

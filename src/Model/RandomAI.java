@@ -10,8 +10,7 @@ public class RandomAI implements Player {
     private Rules rules;
     private int tile;
 
-    public RandomAI(int tile){
-        this.tile = tile;
+    public RandomAI(){
         rules = new Rules();
         y = new Random();
     }
@@ -52,6 +51,7 @@ public class RandomAI implements Player {
 
     @Override
     public void makeMove(State currentState) {
+        this.tile = currentState.getTile();
         int[][] board2D = currentState.getCurrentBoard(); //get current state
         board2D = rules.checkMoves(board2D, tile);
         board2D = pickMove(board2D, tile);

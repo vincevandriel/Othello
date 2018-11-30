@@ -5,13 +5,14 @@ public class Human implements Player {
     private Rules rules;
     private int tile;
 
-    public Human(int tile) { // if human
-        this.tile = tile;
+    public Human() { // if human
         rules = new Rules();
     }
 
     @Override
     public void makeMove(State currentState) {
+
+        this.tile = currentState.getTile();
 
         int x = currentState.getX();
         int y = currentState.getY();
