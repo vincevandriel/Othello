@@ -62,9 +62,10 @@ public class DiskSquareTables implements EvalFunction{
         result[size - 3][size - 1] = a;
 
         //B (only works if 8 or larger)
-        for(int i = 2; i < ) {
+       /* for(int i = 2; i < ) {
 
         }
+        */
 
         //C
 

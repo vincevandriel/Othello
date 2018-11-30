@@ -1,5 +1,4 @@
-package Controller;
-import Model.Rules;
+package Model;
 
 
 public class MinimaxTest {
@@ -13,7 +12,6 @@ public class MinimaxTest {
         int[][] board = new int[8][8];
         board = rules.setupBoard(board);
         Root root = new Root(board, 1);
-        root.generateTree();
         Minimax minimax = new Minimax(root);
     }
 
@@ -22,7 +20,7 @@ public class MinimaxTest {
         int[][] board = new int[8][8];
         board = rules.setupBoard(board);
         Root root = new Root(board, 1);
-        AlphaBeta alphabeta = new AlphaBeta(root);
+        AlphaBeta alphabeta = new AlphaBeta();
     }
 
 }

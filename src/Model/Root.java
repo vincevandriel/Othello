@@ -1,6 +1,6 @@
-package Controller;
+package Model;
 
-import Controller.Node;
+import Model.Node;
 import Model.Rules;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ public class Root {
     private int[][] board;
     //current Tile, so 1 = black and 2 = white
     private int tile;
-    private final int DEPTH = 3;
+    private final int DEPTH = 5;
     private Rules rules;
     private ArrayList<Node> children;
 
@@ -18,10 +18,10 @@ public class Root {
         this.tile = tile;
         rules = new Rules();
         children = new ArrayList<Node>();
+        generateTree();
     }
 
     public void generateTree() {
-        children = null;
         generateRootChildren();
         ArrayList<Node> currentChildren = new ArrayList<Node>(children);
 
@@ -126,6 +126,14 @@ public class Root {
             pront(retrieveBoard(children.get(0).getChildren().get(0).getChildren().get(i)));
         }
 
+    }
+
+    public void setRoot(int[][] board, int tile){
+        this.board = board;
+        this.tile = tile;
+        rules = new Rules();
+        children = new ArrayList<Node>();
+        generateTree();
     }
 
     public ArrayList<Node> getChildren() {

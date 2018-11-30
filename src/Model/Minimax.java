@@ -1,5 +1,4 @@
-package Controller;
-import Model.EvalFunction;
+package Model;
 
 import java.util.ArrayList;
 

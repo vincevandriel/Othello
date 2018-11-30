@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Rules;
-import Controller.Root;
+import Model.Root;
 
 import java.util.ArrayList;
 

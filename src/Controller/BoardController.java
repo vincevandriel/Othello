@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class BoardController {
 
+    public static Root root;
     private boolean gameDone;
     private Player P1;
     private Player P2;
@@ -30,6 +31,7 @@ public class BoardController {
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
         board.addBoardClickEventListener(this::boardClickHandler);
+        root = new Root(board2D, 1);
     }
 
     private void boardClickHandler(Dimension pos) {
@@ -42,17 +44,18 @@ public class BoardController {
 
         if (!gameDone) {
 
-                if (state.getTile() == 1) {
-                    P1.makeMove(state);
-                } else {
-                    P2.makeMove(state);
-                }
+            if (state.getTile() == 1) {
+                P1.makeMove(state);
+            } else {
+                P2.makeMove(state);
             }
-
-            tiles = state.convertToCollection(board2D);
-            board.addTiles(tiles);
-            checkGameStatus(); //check for game state
         }
+
+        root.setRoot(state.getCurrentBoard(), state.getTile());
+        tiles = state.convertToCollection(board2D);
+        board.addTiles(tiles);
+        checkGameStatus(); //check for game state
+    }
 
     public void checkGameStatus() {
         if (board.getTiles().size() == 64) {

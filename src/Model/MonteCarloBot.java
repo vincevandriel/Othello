@@ -1,7 +1,5 @@
 package Model;
 
-import Controller.Root;
-
 public class MonteCarloBot implements Player{
     Root root;
     boolean timebased;
@@ -21,6 +19,6 @@ public class MonteCarloBot implements Player{
     //plays the specified amount of games given by times and returns the winrate
     //colour is the colour playing next
     public float playRandom(int[][] board, int colour, int times) {
-
+     return 0;
     }
 }

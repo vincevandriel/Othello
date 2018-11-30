@@ -1,15 +1,9 @@
 package Model;
 
-import Controller.TreeNode;
-import Model.Tile;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Rules { //part of the model
-
-    ArrayList<TreeNode<Integer>> spotsCoordinates = new ArrayList<>();
 
     public int[][] setupBoard(int[][] board) {
         int half = board.length/2;
@@ -76,8 +70,6 @@ public class Rules { //part of the model
                         }
                         if (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < board.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < board[0].length) && board[xCoor + temp_i][yCoor + temp_j] == color) {
                             board[opponentSpots.get(counter)[0]+i][opponentSpots.get(counter)[1]+j] = 3;
-                            int[] coordinates = new int[2];
-                            spotsCoordinates.add(new TreeNode<Integer>(opponentSpots.get(counter)[0]+i, opponentSpots.get(counter)[1]+j, null));
                         }
                     }
                 }
@@ -209,9 +201,5 @@ public class Rules { //part of the model
         }
         System.out.println("Black tiles - " + black);
         System.out.println("White tiles - " + white);
-    }
-
-    public ArrayList<TreeNode<Integer>> getCoordinateList(){
-        return spotsCoordinates;
     }
 }

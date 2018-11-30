@@ -23,6 +23,15 @@ public class State { //part of the model
         this.board2D = board2D;
     }
 
+    public void print(){
+        for(int i = 0; i < board2D.length; i++){
+            for(int j = 0; j<board2D[0].length; j++){
+                System.out.print(board2D[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
     public ArrayList<Tile> convertToCollection(int[][] board){
         ArrayList<Tile> result = new ArrayList<>();
         for(int i = 0; i < board.length; i++) {
