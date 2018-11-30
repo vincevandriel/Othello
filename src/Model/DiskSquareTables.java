@@ -1,7 +1,7 @@
 package Model;
 
 public class DiskSquareTables implements EvalFunction{
-    int[][] dst;
+    private int[][] dst;
 
     @Override
     public int eval(int[][] board, int currentColour) {
@@ -44,8 +44,8 @@ public class DiskSquareTables implements EvalFunction{
 
         //Middle (only works out if size is 8 or larger)
         if(size >= 8) {
-            for(int i = 2; i < size - 3; i++) {
-                for(int j = 2; j < size - 3; j++) {
+            for(int i = 2; i < size - 2; i++) {
+                for(int j = 2; j < size - 2; j++) {
                     result[i][j] = middle;
                 }
             }
@@ -62,14 +62,36 @@ public class DiskSquareTables implements EvalFunction{
         result[size - 3][size - 1] = a;
 
         //B (only works if 8 or larger)
-       /* for(int i = 2; i < ) {
-
+        if(size >= 8) {
+            for(int i = 3; i < size - 3; i++) {
+                result[0][i] = b;
+            }
+            for(int i = 3; i < size - 3; i++) {
+                result[i][0] = b;
+            }
+            for(int i = 3; i < size - 3; i++) {
+                result[size - 1][i] = b;
+            }
+            for(int i = 3; i < size - 3; i++) {
+                result[i][size - 1] = b;
+            }
         }
-        */
 
         //C
+        result[0][1] = c;
+        result[1][0] = c;
+        result[0][size - 2] = c;
+        result[size - 2][0] = c;
+        result[1][size - 1] = c;
+        result[size - 1][1] = c;
+        result[size - 1][size - 2] = c;
+        result[size - 2][size - 1] = c;
 
         //X
+        result[1][1] = x;
+        result[1][size - 2] = x;
+        result[size - 2][1] = x;
+        result[size - 2][size - 2] = x;
 
 
         dst = result;
