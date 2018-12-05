@@ -47,6 +47,7 @@ public class Rules { //part of the model
      * @param color to represent who wants to make the move and therefore find the correct opponent existing tiles
      */
     public int[][] checkMoves(int[][] board, int color) {
+        int[][] tempBoard = board;
         int opponentColor;
         if (color == 1) {
             opponentColor = 2;
@@ -54,29 +55,29 @@ public class Rules { //part of the model
             opponentColor = 1;
         }
         ArrayList<int[]> opponentSpots = new ArrayList<>();
-        opponentSpots = findOpponentSpots(board, opponentColor);
+        opponentSpots = findOpponentSpots(tempBoard, opponentColor);
         int counter = 0;
         while (counter < opponentSpots.size()) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
                     int xCoor = opponentSpots.get(counter)[0];
                     int yCoor = opponentSpots.get(counter)[1];
-                    if (((xCoor + i) >= 0) && ((xCoor + i) < board.length) && ((yCoor + j) >= 0) && ((yCoor + j) < board[0].length) && board[xCoor + i][yCoor + j] == 0) {
+                    if (((xCoor + i) >= 0) && ((xCoor + i) < tempBoard.length) && ((yCoor + j) >= 0) && ((yCoor + j) < tempBoard[0].length) && tempBoard[xCoor + i][yCoor + j] == 0) {
                         int temp_i = -1 * i;
                         int temp_j = -1 * j;
-                        while (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < board.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < board[0].length) && (board[xCoor + temp_i][yCoor + temp_j] == opponentColor)) {
+                        while (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < tempBoard.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < tempBoard[0].length) && (tempBoard[xCoor + temp_i][yCoor + temp_j] == opponentColor)) {
                             xCoor += temp_i;
                             yCoor += temp_j;
                         }
-                        if (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < board.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < board[0].length) && board[xCoor + temp_i][yCoor + temp_j] == color) {
-                            board[opponentSpots.get(counter)[0]+i][opponentSpots.get(counter)[1]+j] = 3;
+                        if (((xCoor + temp_i) >= 0) && ((xCoor + temp_i) < tempBoard.length) && ((yCoor + temp_j) >= 0) && ((yCoor + temp_j) < tempBoard[0].length) && tempBoard[xCoor + temp_i][yCoor + temp_j] == color) {
+                            tempBoard[opponentSpots.get(counter)[0]+i][opponentSpots.get(counter)[1]+j] = 3;
                         }
                     }
                 }
             }
             counter++;
         }
-        return board;
+        return tempBoard;
     }
 
     /**

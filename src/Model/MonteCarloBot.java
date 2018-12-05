@@ -37,7 +37,8 @@ public class MonteCarloBot implements Player {
         int[][] tempBoard = currentState.getCurrentBoard();
         tempBoard[bestMove[0]][bestMove[1]] = tile;
         tempBoard = rules.flip(tempBoard, (double) bestMove[0], (double) bestMove[1], tile);
-        //currentState.setCurrentBoard(tempBoard);
+        currentState.setCurrentBoard(tempBoard);
+        currentState.switchTile();
     }
 
     //plays the specified amount of games given by times and returns the win rate
@@ -61,7 +62,7 @@ public class MonteCarloBot implements Player {
         Random y = new Random();
         int[][] tempBoard = board;
         tempBoard = rules.checkMoves(tempBoard, colour);
-        ArrayList<int[]> availMoves = new ArrayList<int[]>();
+        ArrayList<int[]> availMoves = new ArrayList<>();
 
         for (int i = 0; i < tempBoard.length; i++) {
             for (int j = 0; j < tempBoard[0].length; j++) {
@@ -79,7 +80,8 @@ public class MonteCarloBot implements Player {
         } else {
             int random = y.nextInt(availMoves.size());
             tempBoard[availMoves.get(random)[0]][availMoves.get(random)[1]] = colour;
-            tempBoard = rules.flip(board, (double) availMoves.get(random)[0], (double) availMoves.get(random)[1], colour);
+            tempBoard = rules.clear3s(tempBoard);
+            tempBoard = rules.flip(tempBoard, (double) availMoves.get(random)[0], (double) availMoves.get(random)[1], colour);
             return tempBoard;
         }
     }
@@ -126,8 +128,12 @@ public class MonteCarloBot implements Player {
         public boolean gameOver(int[][] board){
 
             int[][] tempBoard = board;
+            System.out.println("BEFORE");
+            rules.pront(tempBoard);
             int[][] tempBoardTile1 = rules.checkMoves(tempBoard, 1);
             int[][] tempBoardTile2 = rules.checkMoves(tempBoard, 2);
+            tempBoard = rules.clear3s(tempBoard);
+            System.out.println("AFTER");
 
             for(int i = 0; i<tempBoardTile1.length; i++){
                 for(int j = 0; j< tempBoardTile1[0].length; j++){

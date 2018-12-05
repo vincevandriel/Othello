@@ -46,10 +46,8 @@ public class BoardController {
         if (!gameDone) {
 
             if (state.getTile() == 1) {
-                System.out.println("player 1");
                 P1.makeMove(state);
             } else {
-                System.out.println("player 2");
                 P2.makeMove(state);
             }
         }
