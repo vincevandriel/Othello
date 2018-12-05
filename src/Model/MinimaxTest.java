@@ -20,7 +20,7 @@ public class MinimaxTest {
         int[][] board = new int[8][8];
         board = rules.setupBoard(board);
         Root root = new Root(board, 1, 5);
-        AlphaBeta alphabeta = new AlphaBeta();
+        //AlphaBeta alphabeta = new AlphaBeta();
     }
 
 }

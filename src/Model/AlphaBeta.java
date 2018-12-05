@@ -4,7 +4,7 @@ import Controller.BoardController;
 
 import java.util.ArrayList;
 
-public class AlphaBeta implements EvalFunction, Player {
+public class AlphaBeta implements Player {
 
     public static Root root;
     private int depth;
@@ -12,22 +12,15 @@ public class AlphaBeta implements EvalFunction, Player {
     private Node tempNode;
     private ArrayList<Node> possibleMoves;
     private int bestValue;
+    private EvalFunction evalFunction;
 
-    public AlphaBeta(){
+    public AlphaBeta(EvalFunction evalFunction){
         rules = new Rules();
+        this.evalFunction = evalFunction;
     }
 
-    @Override
     public int eval(int[][] board, int tile) {
-        int counter = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (board[i][j] == tile) {
-                    counter++;
-                }
-            }
-        }
-        return counter;
+        return evalFunction.eval(board, tile);
     }
 
     @Override
@@ -98,7 +91,8 @@ public class AlphaBeta implements EvalFunction, Player {
         return null;
     }
 
-    public void setRoot(Root root){
+    public void setRoot(
+            Root root){
         possibleMoves = new ArrayList<>();
         this.root = root;
         tempNode = new Node(null, -1, -1, root.getTile());
