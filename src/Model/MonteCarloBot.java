@@ -22,7 +22,7 @@ public class MonteCarloBot implements Player {
     //This is just so that the bot implements Player... Should this return coordinates?
     @Override
     public void makeMove(State currentState) {
-         int[][] currentboard = currentState.getCurrentBoard();
+         int[][] currentboard = clone(currentState.getCurrentBoard());
         int[] bestMove = new int[2];
          double highestWinRate = 0;
         ArrayList<int[][]> boards = getFirstMoves(currentState);
@@ -32,9 +32,11 @@ public class MonteCarloBot implements Player {
                highestWinRate = winRate;
                bestMove[0] = initialMoves.get(i)[0];
                bestMove[1] = initialMoves.get(i)[1];
+               System.out.println(bestMove[0] + " and " + bestMove[1]);
            }
         }
         int[][] tempBoard = currentState.getCurrentBoard();
+        System.out.println(bestMove[0] + " fff " + bestMove[1]);
         tempBoard[bestMove[0]][bestMove[1]] = tile;
         tempBoard = rules.flip(tempBoard, (double) bestMove[0], (double) bestMove[1], tile);
         currentState.setCurrentBoard(tempBoard);
@@ -44,23 +46,27 @@ public class MonteCarloBot implements Player {
     //plays the specified amount of games given by times and returns the win rate
     //colour is the colour playing next
     public double evaluateMove(int[][] board, int colour, int times) {
-        int wins = 0;
-        int losses = 0;
+        double wins = 0;
+        double losses = 0;
         for (int i = 0; i < times; i++) {
-            rules.pront(board);
-            int[][] currentBoard = board;
+            int[][] currentBoard = clone(board);
+            System.out.println(currentBoard);
             if(playGame(currentBoard, colour)){
+                System.out.println("win");
                 wins++;
             }else{
+                System.out.println("LOSS");
+
                 losses++;
             }
         }
+        System.out.println((wins / (wins + losses)) + "win rate");
         return (double) wins / (wins + losses);
     }
 
     public int[][] playRandomMove(int[][] board, int colour) {
         Random y = new Random();
-        int[][] tempBoard = board;
+        int[][] tempBoard = clone(board);
         tempBoard = rules.checkMoves(tempBoard, colour);
         ArrayList<int[]> availMoves = new ArrayList<>();
 
@@ -96,7 +102,7 @@ public class MonteCarloBot implements Player {
 
         public boolean playGame(int[][] board, int colour) {
             int tempColour = colour;
-            int[][] tempBoard = board;
+            int[][] tempBoard = clone(board);
             while (!gameOver(tempBoard)) {
                 tempColour = swapColours(tempColour);
                 tempBoard = playRandomMove(tempBoard, tempColour);
@@ -106,7 +112,7 @@ public class MonteCarloBot implements Player {
         }
 
         public boolean checkGame(int[][] board, int colour){
-            int[][] tempBoard = board;
+            int[][] tempBoard = clone(board);
             int black = 0;
             int white = 0;
             for(int i = 0; i < tempBoard.length; i++){
@@ -118,6 +124,9 @@ public class MonteCarloBot implements Player {
                     }
                 }
             }
+            System.out.println(black + "black");
+            System.out.println(white + "white");
+
             if((colour == 1 && (black>white)) || (colour == 2 && (black<white))){
                 return true;
             }else{
@@ -127,13 +136,15 @@ public class MonteCarloBot implements Player {
 
         public boolean gameOver(int[][] board){
 
-            int[][] tempBoard = board;
-            System.out.println("BEFORE");
-            rules.pront(tempBoard);
-            int[][] tempBoardTile1 = rules.checkMoves(tempBoard, 1);
-            int[][] tempBoardTile2 = rules.checkMoves(tempBoard, 2);
+            //
+            // System.out.println(board);
+            int[][] tempBoard = clone(board);
+            //System.out.println("BEFORE");
+            //rules.pront(tempBoard);
+            int[][] tempBoardTile1 = clone(rules.checkMoves(tempBoard, 1));
+            int[][] tempBoardTile2 = clone(rules.checkMoves(tempBoard, 2));
             tempBoard = rules.clear3s(tempBoard);
-            System.out.println("AFTER");
+            //System.out.println("AFTER");
 
             for(int i = 0; i<tempBoardTile1.length; i++){
                 for(int j = 0; j< tempBoardTile1[0].length; j++){
@@ -146,23 +157,37 @@ public class MonteCarloBot implements Player {
         }
 
         public ArrayList<int[][]> getFirstMoves(State currentState){
+            initialMoves.clear();
             ArrayList<int[][]> boards = new ArrayList<>();
-            int[][] board = currentState.getCurrentBoard();
+            int[][] board = clone(currentState.getCurrentBoard());
             board = rules.checkMoves(board, tile);
+            //rules.pront(board);
             for(int i = 0; i<board.length; i++){
                 for(int j = 0; j< board[0].length; j++){
                     if(board[i][j] == 3){
-                        int[][] tempBoard = board;
+                        int[][] tempBoard = clone(board);
                         tempBoard[i][j] = tile;
                         tempBoard = rules.clear3s(tempBoard);
                         tempBoard = rules.flip(tempBoard, (double) i, (double) j, tile);
                         boards.add(tempBoard);
-                        int[] coords = {i, j};
+                        int[] coords = new int[2];
+                        coords[0] = i;
+                        coords[1] = j;
                         initialMoves.add(coords);
                     }
                 }
             }
-
             return boards;
         }
+
+        public int[][] clone(int[][] board){
+            int[][] tempBoard = new int[board.length][board[0].length];
+            for(int x = 0; x < board.length; x++){
+                for(int y = 0; y< board[0].length; y++){
+                    tempBoard[x][y] = board[x][y];
+                }
+            }
+            return tempBoard;
+        }
+
 }

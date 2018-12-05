@@ -38,7 +38,7 @@ public class AlphaBeta implements Player {
             currentState.switchTile();
             return;
         }
-        System.out.println(coords[0] + "and" + coords[1]);
+        //System.out.println(coords[0] + "and" + coords[1]);
         int[][] board2D = currentState.getCurrentBoard(); //get current state
         board2D[coords[0]][coords[1]] = tile;
         board2D = rules.flip(board2D, coords[0], coords[1], root.getTile());

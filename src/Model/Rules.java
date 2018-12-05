@@ -89,9 +89,10 @@ public class Rules { //part of the model
 
     public ArrayList<int[]> findOpponentSpots(int[][] board, int opponentColor){
         ArrayList<int[]> opponentSpots = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if(board[i][j] == opponentColor){
+        int[][] tempBoard = board;
+        for (int i = 0; i < tempBoard.length; i++) {
+            for (int j = 0; j < tempBoard[0].length; j++) {
+                if(tempBoard[i][j] == opponentColor){
                     int[] position = new int[2];
                     position[0] = i; //x
                     position[1] = j; //y
@@ -106,15 +107,16 @@ public class Rules { //part of the model
      * This method is initialized after a piece was placed. It flips the respective pieces of the opponent.
      **/
     public int[][] flip (int[][] board, double x, double y, int currentColour){
+        int[][] tempBoard = board;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (!(i == 0 && i == j)) {
-                    int amount = checkDirection(board, x, y, i, j, currentColour);
+                    int amount = checkDirection(tempBoard, x, y, i, j, currentColour);
                     if (amount != 0) {
                         int currentX = (int)x + i;
                         int currentY = (int)y + j;
                         for (int k = 0; k < amount; k++) {
-                            board[currentX][currentY] = currentColour;
+                            tempBoard[currentX][currentY] = currentColour;
                             currentX += i;
                             currentY += j;
                         }
@@ -122,7 +124,7 @@ public class Rules { //part of the model
                 }
             }
         }
-        return board;
+        return tempBoard;
     }
 
     /**
@@ -134,6 +136,9 @@ public class Rules { //part of the model
      * If xDirection is set to 0, and yDirection is set to 1, the direction that is checked is straight down.
      **/
     public int checkDirection (int[][] board, double x, double y, int xDirection, int yDirection, int currentColour){
+        int[][] tempBoard = board;
+
+
         int currentX = (int)x + xDirection;
         int currentY = (int)y + yDirection;
 
@@ -149,26 +154,27 @@ public class Rules { //part of the model
             return 0;
         }
 
-        while (currentX >= 0 && currentX < board.length && currentY >= 0 && currentY < board.length && board[currentX][currentY] == opposingColour){
+        while (currentX >= 0 && currentX < tempBoard.length && currentY >= 0 && currentY < tempBoard.length && tempBoard[currentX][currentY] == opposingColour){
             amount++;
             currentX += xDirection;
             currentY += yDirection;
         }
-        if((currentX >= 0 && currentX < board.length && currentY >= 0 && currentY < board.length && board[currentX][currentY] == 0) || (currentX < 0 || currentX >= board.length || currentY < 0 || currentY >= board.length)){
+        if((currentX >= 0 && currentX < tempBoard.length && currentY >= 0 && currentY < tempBoard.length && tempBoard[currentX][currentY] == 0) || (currentX < 0 || currentX >= tempBoard.length || currentY < 0 || currentY >= tempBoard.length)){
             return 0;
         }
         return amount;
     }
 
     public int[][] clear3s(int[][] board){
-        for(int i = 0; i<board.length; i++){
-            for(int j = 0; j<board[0].length; j++){
-                if(board[i][j] == 3){
-                    board[i][j] = 0;
+        int[][] tempBoard = board;
+        for(int i = 0; i<tempBoard.length; i++){
+            for(int j = 0; j<tempBoard[0].length; j++){
+                if(tempBoard[i][j] == 3){
+                    tempBoard[i][j] = 0;
                 }
             }
         }
-        return board;
+        return tempBoard;
     }
 
     public int moveStatus(int[][] board, int x, int y){

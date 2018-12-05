@@ -30,7 +30,7 @@ public class BoardController {
         board.addTiles(tiles);
         root = new Root(board2D, 1, 5);
         P1 = new MonteCarloBot(1); //black tiles, bot
-        P2 = new AlphaBeta(new TileCounter(),2, 1); //white tiles, bot
+        P2 = new AlphaBeta(new TileCounter(),2, 4); //white tiles, bot
         board.addBoardClickEventListener(this::boardClickHandler);
 
     }
@@ -52,6 +52,7 @@ public class BoardController {
             }
         }
 
+        state.print();
         root.setRoot(state.getCurrentBoard(), state.getTile());
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
