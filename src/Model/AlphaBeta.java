@@ -1,12 +1,15 @@
 package Model;
 
 import Controller.BoardController;
+import View.Board;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.util.ArrayList;
 
 public class AlphaBeta implements Player {
 
-    public static Root root;
+    public Root root;
+    private int tile;
     private int depth;
     private Rules rules;
     private Node tempNode;
@@ -14,7 +17,10 @@ public class AlphaBeta implements Player {
     private int bestValue;
     private EvalFunction evalFunction;
 
-    public AlphaBeta(EvalFunction evalFunction){
+    public AlphaBeta(EvalFunction evalFunction, int tile, int depth){
+        this.tile = tile;
+        //root = new Root(BoardController.root.getBoard(), tile ,depth);
+        this.depth = depth;
         rules = new Rules();
         this.evalFunction = evalFunction;
     }
@@ -25,11 +31,16 @@ public class AlphaBeta implements Player {
 
     @Override
     public void makeMove(State currentState) {
-        setRoot(BoardController.root);
+        setRoot();
         bestValue = alphaBeta(tempNode, depth, true, Integer.MIN_VALUE, Integer.MAX_VALUE);
         int[] coords = findBestPath(possibleMoves, bestValue);
+        if(coords == null){
+            currentState.switchTile();
+            return;
+        }
+        System.out.println(coords[0] + "and" + coords[1]);
         int[][] board2D = currentState.getCurrentBoard(); //get current state
-        board2D[coords[0]][coords[1]] = root.getTile();
+        board2D[coords[0]][coords[1]] = tile;
         board2D = rules.flip(board2D, coords[0], coords[1], root.getTile());
         currentState.setCurrentBoard(board2D);
         currentState.switchTile();
@@ -41,10 +52,10 @@ public class AlphaBeta implements Player {
         int max;
 
         if (node.getChildren() == null || depth == 0) {
-            if(depth == root.getDepth()-1) {
+            /*if(depth == root.getDepth()-1 && node.getChildren() == null) {
                 possibleMoves.add(node);
-            }
-            int result = eval(root.retrieveBoard(node), root.getTile());
+            }*/
+            int result = eval(root.retrieveBoard(node), tile);
             node.setEvalValue(result);
             return result;
         }
@@ -54,12 +65,15 @@ public class AlphaBeta implements Player {
                 int eval = alphaBeta(node1, (depth-1),false, alpha, beta);
                 max = Math.max(max, eval);
                 alpha = Math.max(alpha, eval);
-
+                node1.setEvalValue(eval);
+                if(depth == root.getDepth()) {
+                    possibleMoves.add(node1);
+                }
+                node.setEvalValue(max);
                 if(beta <= alpha) {
                     break;
                 }
             }
-            node.setEvalValue(max);
             return max;
         } else {
             min = Integer.MAX_VALUE;
@@ -67,14 +81,16 @@ public class AlphaBeta implements Player {
                 int eval = alphaBeta(node1, (depth-1), true, alpha, beta);
                 min = Math.min(min, eval);
                 beta = Math.min(beta, eval);
+                node1.setEvalValue(eval);
+                node.setEvalValue(min);
                 if(beta <= alpha) {
                     break;
                 }
             }
-            node.setEvalValue(min);
-            if(depth == root.getDepth()-1) {
+            //node.setEvalValue(min);
+           /* if(depth == root.getDepth()-1) {
                 possibleMoves.add(node);
-            }
+            }*/
             return min;
         }
     }
@@ -91,13 +107,11 @@ public class AlphaBeta implements Player {
         return null;
     }
 
-    public void setRoot(
-            Root root){
+    public void setRoot(){
+        root = new Root(BoardController.root.getBoard(), tile ,depth);
         possibleMoves = new ArrayList<>();
-        this.root = root;
-        tempNode = new Node(null, -1, -1, root.getTile());
-        this.depth = root.getDepth();
-        for(int i = 0; i < root.getChildren().size(); i++) {
+        tempNode = new Node(null, -1, -1, tile);
+            for(int i = 0; i < root.getChildren().size(); i++) {
             tempNode.addChild(root.getChildren().get(i));
         }
     }

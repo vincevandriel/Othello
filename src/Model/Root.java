@@ -158,4 +158,8 @@ public class Root {
     public int getTile(){
         return tile;
     }
+
+    public int[][] getBoard(){return board;}
 }
+
+

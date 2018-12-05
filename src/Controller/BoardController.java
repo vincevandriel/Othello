@@ -20,8 +20,6 @@ public class BoardController {
 
     public void start(Board board) {
         this.board = board;
-        P1 = new AlphaBeta(new DiskSquareTables()); //black tiles, bot
-        P2 = new AlphaBeta(new TileCounter()); //white tiles, bot
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
         state = new State(board.getBlockSize());
         rules = new Rules();
@@ -30,8 +28,11 @@ public class BoardController {
         state.setCurrentBoard(board2D);
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
-        board.addBoardClickEventListener(this::boardClickHandler);
         root = new Root(board2D, 1, 5);
+        P1 = new AlphaBeta(new DiskSquareTables(), 1, 5); //black tiles, bot
+        P2 = new AlphaBeta(new TileCounter(),2, 1); //white tiles, bot
+        board.addBoardClickEventListener(this::boardClickHandler);
+
     }
 
     private void boardClickHandler(Dimension pos) {
