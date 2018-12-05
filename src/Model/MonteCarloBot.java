@@ -26,17 +26,18 @@ public class MonteCarloBot implements Player {
         int[] bestMove = new int[2];
          double highestWinRate = 0;
         ArrayList<int[][]> boards = getFirstMoves(currentState);
-        for(int i = 0; i< boards.size(); i++){
+        int size = boards.size();
+        for(int i = 0; i < size; i++){
            double winRate = evaluateMove(currentboard, tile, 100);
            if(winRate > highestWinRate){
                highestWinRate = winRate;
                bestMove[0] = initialMoves.get(i)[0];
                bestMove[1] = initialMoves.get(i)[1];
-               System.out.println(bestMove[0] + " and " + bestMove[1]);
+               //System.out.println(bestMove[0] + " and " + bestMove[1]);
            }
         }
         int[][] tempBoard = currentState.getCurrentBoard();
-        System.out.println(bestMove[0] + " fff " + bestMove[1]);
+        //System.out.println(bestMove[0] + " fff " + bestMove[1]);
         tempBoard[bestMove[0]][bestMove[1]] = tile;
         tempBoard = rules.flip(tempBoard, (double) bestMove[0], (double) bestMove[1], tile);
         currentState.setCurrentBoard(tempBoard);
@@ -50,17 +51,15 @@ public class MonteCarloBot implements Player {
         double losses = 0;
         for (int i = 0; i < times; i++) {
             int[][] currentBoard = clone(board);
-            System.out.println(currentBoard);
             if(playGame(currentBoard, colour)){
-                System.out.println("win");
+                //System.out.println("WIN");
                 wins++;
             }else{
-                System.out.println("LOSS");
-
+                //System.out.println("LOSS");
                 losses++;
             }
         }
-        System.out.println((wins / (wins + losses)) + "win rate");
+        //System.out.println((wins / (wins + losses)) + "win rate");
         return (double) wins / (wins + losses);
     }
 
@@ -73,6 +72,7 @@ public class MonteCarloBot implements Player {
         for (int i = 0; i < tempBoard.length; i++) {
             for (int j = 0; j < tempBoard[0].length; j++) {
                 if (tempBoard[i][j] == 3) {
+                    //System.out.println("bjsbc");
                     int[] move = new int[2];
                     move[0] = i;
                     move[1] = j;
@@ -82,7 +82,7 @@ public class MonteCarloBot implements Player {
         }
 
         if (availMoves.size() == 0) {
-            return null;
+            return tempBoard;
         } else {
             int random = y.nextInt(availMoves.size());
             tempBoard[availMoves.get(random)[0]][availMoves.get(random)[1]] = colour;
@@ -103,16 +103,21 @@ public class MonteCarloBot implements Player {
         public boolean playGame(int[][] board, int colour) {
             int tempColour = colour;
             int[][] tempBoard = clone(board);
-            while (!gameOver(tempBoard)) {
+            boolean done = false;
+                while (!done) {
+                    if(gameOver(tempBoard)) {
+                        done = true;
+                    }
                 tempColour = swapColours(tempColour);
                 tempBoard = playRandomMove(tempBoard, tempColour);
-            }
-
+                }
             return checkGame(tempBoard, colour);
         }
 
-        public boolean checkGame(int[][] board, int colour){
+        public boolean checkGame(int[][] board, int colour){ //THIS is where WE FIND THE NULL
+            //System.out.println(board);
             int[][] tempBoard = clone(board);
+
             int black = 0;
             int white = 0;
             for(int i = 0; i < tempBoard.length; i++){
@@ -124,8 +129,8 @@ public class MonteCarloBot implements Player {
                     }
                 }
             }
-            System.out.println(black + "black");
-            System.out.println(white + "white");
+            //System.out.println(black + "black");
+            //System.out.println(white + "white");
 
             if((colour == 1 && (black>white)) || (colour == 2 && (black<white))){
                 return true;
@@ -135,10 +140,8 @@ public class MonteCarloBot implements Player {
         }
 
         public boolean gameOver(int[][] board){
-
-            //
-            // System.out.println(board);
             int[][] tempBoard = clone(board);
+
             //System.out.println("BEFORE");
             //rules.pront(tempBoard);
             int[][] tempBoardTile1 = clone(rules.checkMoves(tempBoard, 1));
