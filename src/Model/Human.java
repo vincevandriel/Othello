@@ -17,6 +17,8 @@ public class Human implements Player {
         int x = currentState.getX();
         int y = currentState.getY();
 
+        rules.pront(currentState.getCurrentBoard());
+
         int[][] board2D = currentState.getCurrentBoard(); //get current state
         board2D = rules.checkMoves(board2D, tile);
         if (rules.moveStatus(board2D, x, y) == 1) {

@@ -29,7 +29,7 @@ public class BoardController {
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
         root = new Root(board2D, 1, 5);
-        P1 = new AlphaBeta(new DiskSquareTables(), 1, 5); //black tiles, bot
+        P1 = new MonteCarloBot(1); //black tiles, bot
         P2 = new AlphaBeta(new TileCounter(),2, 1); //white tiles, bot
         board.addBoardClickEventListener(this::boardClickHandler);
 
@@ -46,8 +46,10 @@ public class BoardController {
         if (!gameDone) {
 
             if (state.getTile() == 1) {
+                System.out.println("player 1");
                 P1.makeMove(state);
             } else {
+                System.out.println("player 2");
                 P2.makeMove(state);
             }
         }

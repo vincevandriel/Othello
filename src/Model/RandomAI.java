@@ -19,11 +19,8 @@ public class RandomAI implements Player {
         int random;
         if(list == null){
             return null;
-        }
-        if(list.size() == 1){
-            random = 0;
         }else {
-            random = y.nextInt(list.size() - 1); //number from 1 to # legal moves
+            random = y.nextInt(list.size()); //number from 1 to # legal moves
         }
         this.x_coor = list.get(random)[0];
         this.y_coor = list.get(random)[1];
