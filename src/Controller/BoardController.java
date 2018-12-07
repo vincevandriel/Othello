@@ -29,8 +29,8 @@ public class BoardController {
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
         root = new Root(board2D, 1, 5);
-        P1 = new MonteCarloBot(1); //black tiles, bot
-        P2 = new AlphaBeta(new TileCounter(),2, 4); //white tiles, bot
+        P1 = new MonteClappo(1, 300); //black tiles, bot
+        P2 = new AlphaBeta(new DiskSquareTables(),2, 3); //white tiles, bot
         board.addBoardClickEventListener(this::boardClickHandler);
 
     }

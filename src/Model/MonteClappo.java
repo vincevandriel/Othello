@@ -3,19 +3,15 @@ package Model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MonteCarloBot implements Player {
-    public static Root root;
+public class MonteClappo implements Player {
     Rules rules;
-    boolean timebased;
-    int times;
+    private int times;
     int tile;
-    private Random random;
-    private int[][] board;
     private ArrayList<int[]> initialMoves = new ArrayList<>();
 
-    public MonteCarloBot(int tile) {
+    public MonteClappo(int tile, int times) {
+        this.times = times;
         this.tile = tile;
-        random = new Random();
         rules = new Rules();
     }
 
@@ -28,14 +24,21 @@ public class MonteCarloBot implements Player {
         ArrayList<int[][]> boards = getFirstMoves(currentState);
         int size = boards.size();
         for(int i = 0; i < size; i++){
-           double winRate = evaluateMove(currentboard, tile, 100);
+           double winRate = evaluateMove(boards.get(i), tile, times);
+            System.out.println("current winrate = " + winRate);
+            System.out.println("highest win rate = " + highestWinRate);
            if(winRate > highestWinRate){
                highestWinRate = winRate;
                bestMove[0] = initialMoves.get(i)[0];
                bestMove[1] = initialMoves.get(i)[1];
                //System.out.println(bestMove[0] + " and " + bestMove[1]);
            }
+
         }
+
+        //System.out.println("first best move x = " + bestMove[0]);
+        //System.out.println("first best move y = " + bestMove[1]);
+
         int[][] tempBoard = currentState.getCurrentBoard();
         //System.out.println(bestMove[0] + " fff " + bestMove[1]);
         tempBoard[bestMove[0]][bestMove[1]] = tile;
@@ -59,8 +62,9 @@ public class MonteCarloBot implements Player {
                 losses++;
             }
         }
+
         //System.out.println((wins / (wins + losses)) + "win rate");
-        return (double) wins / (wins + losses);
+        return (wins / (wins + losses)) + 1;
     }
 
     public int[][] playRandomMove(int[][] board, int colour) {
@@ -121,7 +125,7 @@ public class MonteCarloBot implements Player {
             int black = 0;
             int white = 0;
             for(int i = 0; i < tempBoard.length; i++){
-                for(int j = 0; j < tempBoard.length; j++){
+                for(int j = 0; j < tempBoard[0].length; j++){
                     if(tempBoard[i][j] == 1){
                         black++;
                     }else if(tempBoard[i][j] == 2){
