@@ -27,14 +27,20 @@ public class DiskSquareTables implements EvalFunction{
         int[][] result = new int[size][size];
 
         //Values according to this picture given above
-        //My interpretation!
-        //Every space not mentioned is 0
-        int corner = 3;
+        int corner = 5;
+        int x = -2;
+        int c = -1;
         int middle = 2;
+        int other = 1;
         int a = 1;
-        int b = -1;
-        int c = -2;
-        int x = - 3;
+        int b = 1;
+
+        //Value for all squares that don't have a special position
+        for(int i = 0; i < result.length; i++) {
+            for(int j = 0; j < result[0].length; j++) {
+                result[i][j] = other;
+            }
+        }
 
         //Corner Values
         result[0][0] = corner;
