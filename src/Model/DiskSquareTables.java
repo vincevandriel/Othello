@@ -7,7 +7,7 @@ public class DiskSquareTables implements EvalFunction{
     public int eval(int[][] board, int currentColour) {
         //If Dst not initialized or kept with wrong size, then make board with right size
         if(dst == null || dst.length == board.length) {
-            generateDst(board.length);
+            dst = generateDst(board.length);
         }
 
         int result = 0;
@@ -23,7 +23,7 @@ public class DiskSquareTables implements EvalFunction{
 
     //Based on: https://goo.gl/wCBa4K
     //Size must be even and 4 or larger!
-    public void generateDst(int size) {
+    public int[][] generateDst(int size) {
         int[][] result = new int[size][size];
 
         //Values according to this picture given above
@@ -100,7 +100,7 @@ public class DiskSquareTables implements EvalFunction{
         result[size - 2][size - 2] = x;
 
 
-        dst = result;
+        return result;
     }
 
     public void pront(int[][] board) {
