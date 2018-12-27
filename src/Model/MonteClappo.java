@@ -15,7 +15,6 @@ public class MonteClappo implements Player {
         rules = new Rules();
     }
 
-    //This is just so that the bot implements Player... Should this return coordinates?
     @Override
     public void makeMove(State currentState) {
          int[][] currentboard = clone(currentState.getCurrentBoard());
@@ -34,10 +33,15 @@ public class MonteClappo implements Player {
         }
 
         int[][] tempBoard = currentState.getCurrentBoard();
-        tempBoard[bestMove[0]][bestMove[1]] = tile;
-        tempBoard = rules.flip(tempBoard, (double) bestMove[0], (double) bestMove[1], tile);
-        currentState.setCurrentBoard(tempBoard);
-        currentState.switchTile();
+        if(size == 0) {
+            System.out.print("No possible moves for Monte-Carlo Bot. Switching player.");
+            currentState.switchTile();
+        } else {
+            tempBoard[bestMove[0]][bestMove[1]] = tile;
+            tempBoard = rules.flip(tempBoard, (double) bestMove[0], (double) bestMove[1], tile);
+            currentState.setCurrentBoard(tempBoard);
+            currentState.switchTile();
+        }
     }
 
     //plays the specified amount of games given by times and returns the win rate

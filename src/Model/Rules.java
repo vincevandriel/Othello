@@ -7,10 +7,10 @@ public class Rules { //part of the model
 
     public int[][] setupBoard(int[][] board) {
         int half = board.length/2;
-        board[half - 1][half - 1] = 1;
-        board[half][half - 1] = 2;
-        board[half - 1][half] = 2;
-        board[half][half] = 1;
+        board[half - 1][half - 1] = 2;
+        board[half][half - 1] = 1;
+        board[half - 1][half] = 1;
+        board[half][half] = 2;
 
         return board;
     }
