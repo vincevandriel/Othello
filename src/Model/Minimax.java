@@ -1,39 +1,47 @@
 package Model;
 
+import Controller.BoardController;
+
 import java.util.ArrayList;
 
 
-public class Minimax implements EvalFunction {
+public class Minimax implements Player {
 
     private Root root;
     private int depth;
+    private int tile;
     private Node tempNode;
     private ArrayList<Node> possibleMoves;
     private int bestValue;
+    private Rules rules;
+    private EvalFunction evalFunction;
 
-    public Minimax(Root root){
-        possibleMoves = new ArrayList<>();
-        this.root = root;
-        tempNode = new Node(null, -1, -1, root.getTile());
-        this.depth = root.getDepth();
-        for(int i = 0; i < root.getChildren().size(); i++) {
-            tempNode.addChild(root.getChildren().get(i));
-        }
-        bestValue = minimax(tempNode, depth, true);
-        findBestPath(possibleMoves, bestValue);
+    public Minimax(EvalFunction evalFunction, int tile, int depth){
+        this.tile = tile;
+        this.depth = depth;
+        rules = new Rules();
+        this.evalFunction = evalFunction;
+    }
+
+    public int eval(int[][] board, int tile) {
+        return evalFunction.eval(board, tile);
     }
 
     @Override
-    public int eval(int[][] board, int tile) {
-        int counter = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (board[i][j] == tile) {
-                    counter++;
-                }
-            }
+    public void makeMove(State currentState) {
+        setRoot();
+        bestValue = minimax(tempNode, depth, true);
+        int[] coords = findBestPath(possibleMoves, bestValue);
+        if(coords == null){
+            currentState.switchTile();
+            System.out.println("no available moves with minimax");
+            return;
         }
-        return counter;
+        int[][] board2D = currentState.getCurrentBoard(); //get current state
+        board2D[coords[0]][coords[1]] = tile;
+        board2D = rules.flip(board2D, coords[0], coords[1], root.getTile());
+        currentState.setCurrentBoard(board2D);
+        currentState.switchTile();
     }
 
     public int minimax(Node node, int depth, boolean max_player) {
@@ -41,9 +49,11 @@ public class Minimax implements EvalFunction {
         int value;
 
         if (node.getChildren() == null || depth == 0) {
+            /*
             if(depth == root.getDepth()-1) {
                 possibleMoves.add(node);
             }
+            */
             int result = eval(root.retrieveBoard(node), root.getTile());
             node.setEvalValue(result);
             return result;
@@ -51,7 +61,12 @@ public class Minimax implements EvalFunction {
         if (max_player) {
             value = Integer.MIN_VALUE;
             for (Node node1 : node.getChildren()) {
-                value = Math.max(value, minimax(node1, (depth-1),false));
+                int eval = minimax(node1, (depth-1),false);
+                value = Math.max(value, eval);
+                node1.setEvalValue(eval);
+                if(depth == root.getDepth()){
+                    possibleMoves.add(node1);
+                }
             }
             node.setEvalValue(value);
             return value;
@@ -78,6 +93,15 @@ public class Minimax implements EvalFunction {
             }
         }
         return null;
+    }
+
+    public void setRoot(){
+        root = new Root(BoardController.root.getBoard(), tile ,depth);
+        possibleMoves = new ArrayList<>();
+        tempNode = new Node(null, -1, -1, root.getTile());
+        for(int i = 0; i < root.getChildren().size(); i++) {
+            tempNode.addChild(root.getChildren().get(i));
+        }
     }
 }
 

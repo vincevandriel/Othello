@@ -6,6 +6,13 @@ import java.util.ArrayList;
 public class Rules { //part of the model
 
     public int[][] setupBoard(int[][] board) {
+        board = resetBoard(board);
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board.length; j++){
+                board[i][j] = 0;
+            }
+        }
+
         int half = board.length/2;
         board[half - 1][half - 1] = 2;
         board[half][half - 1] = 1;
@@ -208,5 +215,20 @@ public class Rules { //part of the model
         }
         System.out.println("Black tiles - " + black);
         System.out.println("White tiles - " + white);
+    }
+
+    public int[][] clone(int[][] board){
+        int[][] tempBoard = new int[board.length][board[0].length];
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board.length; j++){
+                tempBoard[i][j] = board[i][j];
+            }
+         }
+         return tempBoard;
+    }
+
+    public int[][] resetBoard(int[][] board){
+        int[][] tempBoard = new int[board.length][board[0].length];
+        return tempBoard;
     }
 }

@@ -29,7 +29,6 @@ public class MonteClappo implements Player {
                bestMove[0] = initialMoves.get(i)[0];
                bestMove[1] = initialMoves.get(i)[1];
            }
-
         }
 
         int[][] tempBoard = currentState.getCurrentBoard();
@@ -180,5 +179,4 @@ public class MonteClappo implements Player {
             }
             return tempBoard;
         }
-
 }

@@ -12,7 +12,7 @@ public class MinimaxTest {
         int[][] board = new int[8][8];
         board = rules.setupBoard(board);
         Root root = new Root(board, 1, 5);
-        Minimax minimax = new Minimax(root);
+        //Minimax minimax = new Minimax(new TileCounter(), root);
     }
 
     public static void test2() {

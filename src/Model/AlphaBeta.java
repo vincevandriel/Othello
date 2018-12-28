@@ -68,11 +68,12 @@ public class AlphaBeta implements Player {
                 if(depth == root.getDepth()) {
                     possibleMoves.add(node1);
                 }
-                node.setEvalValue(max);
+                //node.setEvalValue(max);
                 if(beta <= alpha) {
                     break;
                 }
             }
+            node.setEvalValue(max);
             return max;
         } else {
             min = Integer.MAX_VALUE;
