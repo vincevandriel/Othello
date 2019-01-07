@@ -20,4 +20,8 @@ public class MobilityEval implements EvalFunction{
         rules.clear3s(temp);
         return amount;
     }
+
+    public int getMax(int[][] board) {
+        return board.length*board.length;
+    }
 }

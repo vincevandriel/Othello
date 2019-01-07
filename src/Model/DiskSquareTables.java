@@ -2,13 +2,12 @@ package Model;
 
 public class DiskSquareTables implements EvalFunction{
     private int[][] dst;
+    private int max;
+    private int[][] board;
 
     @Override
     public int eval(int[][] board, int currentColour) {
-        //If Dst not initialized or kept with wrong size, then make board with right size
-        if(dst == null || dst.length == board.length) {
-            dst = generateDst(board.length);
-        }
+        generateDST(board);
 
         int result = 0;
         for(int i = 0; i < board.length; i++) {
@@ -19,6 +18,13 @@ public class DiskSquareTables implements EvalFunction{
             }
         }
         return result;
+    }
+
+    public void generateDST(int[][] board) {
+        //If Dst not initialized or kept with wrong size, then make board with right size
+        if(dst == null || dst.length == board.length) {
+            dst = generateDst(board.length);
+        }
     }
 
     //Based on: https://goo.gl/wCBa4K
@@ -103,13 +109,14 @@ public class DiskSquareTables implements EvalFunction{
         return result;
     }
 
-    public void pront(int[][] board) {
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board.length; j++) {
-                System.out.print(board[i][j]);
+    public int getMax(int[][] board) {
+        generateDST(board);
+        int max = 0;
+        for(int i = 0; i < dst.length; i++) {
+            for(int j = 0; j < dst[i].length; j++) {
+                max += dst[i][j];
             }
-            System.out.println();
         }
-        System.out.println();
+        return max;
     }
 }

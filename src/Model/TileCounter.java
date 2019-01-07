@@ -16,4 +16,7 @@ public class TileCounter implements EvalFunction{
 
         return score;
     }
+    public int getMax(int[][] board) {
+        return board.length*board.length;
+    }
 }

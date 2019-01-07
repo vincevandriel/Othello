@@ -43,4 +43,8 @@ public class MobilityEval2 implements EvalFunction{
             return 1;
         }
     }
+
+    public int getMax(int[][] board) {
+        return board.length*board.length*thisTileValue;
+    }
 }

@@ -24,6 +24,10 @@ public class TileCounter2 implements EvalFunction{
         return score;
     }
 
+    public int getMax(int[][] board) {
+        return board.length*board.length*thisTileValue;
+    }
+
     public int swaptile(int tile) {
         if(tile == 1){
             return 2;
