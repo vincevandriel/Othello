@@ -33,7 +33,7 @@ public class MonteClappo implements Player {
 
         int[][] tempBoard = currentState.getCurrentBoard();
         if(size == 0) {
-            System.out.print("No possible moves for Monte-Carlo Bot. Switching player.");
+            System.out.print("No possible moves for Monte-Carlo Bot. Switching player.\n");
             currentState.switchTile();
         } else {
             tempBoard[bestMove[0]][bestMove[1]] = tile;
