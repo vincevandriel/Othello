@@ -17,16 +17,16 @@ public class Human implements Player {
         int x = currentState.getX();
         int y = currentState.getY();
 
-        rules.pront(currentState.getCurrentBoard());
+        //rules.pront(currentState.getCurrentBoard()); //UNCOMMENT THIS TO SEE BOARD
 
         int[][] board2D = currentState.getCurrentBoard(); //get current state
         board2D = rules.checkMoves(board2D, tile);
         if (rules.moveStatus(board2D, x, y) == 1) {
-            currentState.switchTile();
             board2D = rules.clear3s(board2D); //clear possible legal spots (marked as 3s)
             board2D[x][y] = tile;
             board2D = rules.flip(board2D, x, y, tile);
             currentState.setCurrentBoard(board2D); //update state after move
+            currentState.switchTile();
         } else {
             if (rules.moveStatus(board2D, x, y) == 0) {
                 System.out.println("NO MOVES AVAILABLE FOR YOU - switch turn to opponent.");

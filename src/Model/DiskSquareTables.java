@@ -4,6 +4,7 @@ public class DiskSquareTables implements EvalFunction{
     private int[][] dst;
     private int max;
     private int[][] board;
+    private final double  evalWeight = 0.01;
 
     @Override
     public int eval(int[][] board, int currentColour) {
@@ -118,5 +119,10 @@ public class DiskSquareTables implements EvalFunction{
             }
         }
         return max;
+    }
+
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
     }
 }

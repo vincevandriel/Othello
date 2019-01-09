@@ -8,6 +8,9 @@ public class MobilityEval2 implements EvalFunction{
     //This is how much is subtracted from the score for the tiles of the opponent.
     final int opponentTileValue = 1;
 
+    private final double evalWeight = 0.1;
+
+
     @Override
     public int eval(int[][] board, int tile) {
         if(rules == null) {
@@ -46,5 +49,10 @@ public class MobilityEval2 implements EvalFunction{
 
     public int getMax(int[][] board) {
         return board.length*board.length*thisTileValue;
+    }
+
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
     }
 }

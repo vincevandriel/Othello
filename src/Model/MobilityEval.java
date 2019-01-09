@@ -1,7 +1,9 @@
 package Model;
 
 public class MobilityEval implements EvalFunction{
+
     private static Rules rules;
+    private final double evalWeight = 0.01;
 
     @Override
     public int eval(int[][] board, int tile) {
@@ -23,5 +25,10 @@ public class MobilityEval implements EvalFunction{
 
     public int getMax(int[][] board) {
         return board.length*board.length;
+    }
+
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
     }
 }

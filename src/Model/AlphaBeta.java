@@ -2,24 +2,27 @@ package Model;
 
 import Controller.BoardController;
 import View.Board;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
+import java.util.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AlphaBeta implements Player {
 
     public Root root;
     private int tile;
+    private long numMoves = 0;
+    private long sumTime = 0;
     private int depth;
     private Rules rules;
     private Node tempNode;
     private ArrayList<Node> possibleMoves;
-    private int bestValue;
+    private double bestValue;
     private EvalFunction evalFunction;
+    private HashMap<Integer, Node> killerMoves =  new HashMap<>();
 
     public AlphaBeta(EvalFunction evalFunction, int tile, int depth){
         this.tile = tile;
-        //root = new Root(BoardController.root.getBoard(), tile ,depth);
         this.depth = depth;
         rules = new Rules();
         this.evalFunction = evalFunction;
@@ -31,8 +34,16 @@ public class AlphaBeta implements Player {
 
     @Override
     public void makeMove(State currentState) {
+        numMoves++;
         setRoot();
-        bestValue = alphaBeta(tempNode, depth, true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        killerMoves.clear();
+        long startTime = System.nanoTime();
+        bestValue = alphaBeta(tempNode, depth, true, Double.MIN_VALUE, Double.MAX_VALUE);
+        System.out.println("bestValue = " + bestValue);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        sumTime = sumTime + duration;
+        System.out.println("duration of method = " + duration);
         int[] coords = findBestPath(possibleMoves, bestValue);
         if(coords == null){
             currentState.switchTile();
@@ -45,45 +56,52 @@ public class AlphaBeta implements Player {
         currentState.switchTile();
     }
 
-    public int alphaBeta(Node node, int depth, boolean max_player, int alpha, int beta) {
+    public double alphaBeta(Node node, int depth, boolean max_player, double alpha, double beta) {
 
-        int min;
-        int max;
+        Random random = new Random();
+
+        double min;
+        double max;
 
         if (node.getChildren() == null || depth == 0) {
             /*if(depth == root.getDepth()-1 && node.getChildren() == null) {
                 possibleMoves.add(node);
             }*/
-            int result = eval(root.retrieveBoard(node), tile);
-            node.setEvalValue(result);
-            return result;
+            double result = eval(root.retrieveBoard(node), tile);
+            double temp = random.nextDouble();
+            node.setEvalValue(result + temp);
+            return (result + temp);
         }
         if (max_player) {
-            max = Integer.MIN_VALUE;
-            for (Node node1 : node.getChildren()) {
-                int eval = alphaBeta(node1, (depth-1),false, alpha, beta);
+            max = -Double.MAX_VALUE;
+            for (Node child : node.getChildren()) {
+                double eval = alphaBeta(child, (depth-1),false, alpha, beta);
                 max = Math.max(max, eval);
                 alpha = Math.max(alpha, eval);
-                node1.setEvalValue(eval);
+                child.setEvalValue(eval);
                 if(depth == root.getDepth()) {
-                    possibleMoves.add(node1);
+                    possibleMoves.add(child);
                 }
                 //node.setEvalValue(max);
-                if(beta <= alpha) {
+                if(beta <= alpha) { //add killer moves (nodes) whenever they prune
+                    killerMoves.put((depth - 1), child); //ad// d move which caused pruning deeper
+                    orderChildren(node, depth);
                     break;
                 }
             }
             node.setEvalValue(max);
             return max;
         } else {
-            min = Integer.MAX_VALUE;
-            for (Node node1 : node.getChildren()) {
-                int eval = alphaBeta(node1, (depth-1), true, alpha, beta);
+            min = Double.MAX_VALUE;
+            for (Node child : node.getChildren()) {
+                double eval = alphaBeta(child, (depth-1), true, alpha, beta);
                 min = Math.min(min, eval);
                 beta = Math.min(beta, eval);
-                node1.setEvalValue(eval);
+                child.setEvalValue(eval);
                 node.setEvalValue(min);
                 if(beta <= alpha) {
+                    killerMoves.put((depth-1), child); //add move which caused pruning deeper
+                    orderChildren(node, depth);
                     break;
                 }
             }
@@ -95,7 +113,7 @@ public class AlphaBeta implements Player {
         }
     }
 
-    public int[] findBestPath(ArrayList<Node> possibleMoves, int bestValue){
+    public int[] findBestPath(ArrayList<Node> possibleMoves, double bestValue){
         for(int i = 0; i < possibleMoves.size(); i++){
             if(possibleMoves.get(i).getEvalValue() == bestValue){
                 int[] coords = new int[2];
@@ -107,13 +125,42 @@ public class AlphaBeta implements Player {
         return null;
     }
 
+    public void orderChildren(Node node, int depth) {
+        int index = -1; //this is to order nodes based on which one is a killer move in other plays
+        int childrenSize = node.getChildren().size();
+        ArrayList<Node> tempChildren; //copy to rearrange children
+
+        if (node.getChildren() != null) {
+
+            tempChildren = new ArrayList<>(node.getChildren());
+
+            for (int i = 0; i < tempChildren.size(); i++) {
+
+                if (tempChildren.get(i) == killerMoves.get(depth - 1)) {
+                    index = i; //set index to swap orders
+                }
+            }
+            if (index > 0) {
+                Node tempNode = tempChildren.get(0);
+                tempChildren.set(0, killerMoves.get(depth - 1));
+                tempChildren.set(index, tempNode);
+                node.setChildren(tempChildren);
+            }
+        }
+    }
+
+
     public void setRoot(){
         root = new Root(BoardController.root.getBoard(), tile ,depth);
         possibleMoves = new ArrayList<>();
         tempNode = new Node(null, -1, -1, tile);
-            for(int i = 0; i < root.getChildren().size(); i++) {
+         for(int i = 0; i < root.getChildren().size(); i++) {
             tempNode.addChild(root.getChildren().get(i));
         }
     }
-}
 
+    public void avgDuration(){
+        long duration =  (sumTime / numMoves);
+        System.out.println("Average length = " + duration);
+    }
+}

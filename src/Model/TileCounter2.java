@@ -6,6 +6,7 @@ public class TileCounter2 implements EvalFunction{
     final int thisTileValue = 2;
     //This is how much is subtracted from the score for the tiles of the opponent.
     final int opponentTileValue = 1;
+    private final double evalWeight = 0.1;
 
     @Override
     public int eval(int[][] board, int colour) {
@@ -34,5 +35,10 @@ public class TileCounter2 implements EvalFunction{
         } else {
             return 1;
         }
+    }
+
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
     }
 }

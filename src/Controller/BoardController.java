@@ -4,7 +4,7 @@ import Model.*;
 import View.Board;
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.concurrent.TimeUnit;
 public class BoardController {
 
     public static Root root;
@@ -37,15 +37,15 @@ public class BoardController {
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
         root = new Root(board2D, 1, 5);
-        P1 = new MonteClappo(1,5); //black tiles, bot
-        P2 = new Human(); //white tiles, bot
+        P1 = new MonteClappo(1, 100, new DiskSquareTables2()); //black tiles, bot
+        P2 = new AlphaBeta(new DiskSquareTables2(),2,5); //black tiles, bot
 
         if (P1.getClass().getName().equals("Model.Human") || P2.getClass().getName().equals("Model.Human")) { //if there's at least one human
             if(!P1.getClass().getName().equals("Model.Human") || !P2.getClass().getName().equals("Model.Human")){ //if there's a human and a bot (in any order)
                 bot = true;
                 board.addBoardClickEventListener(this::boardClickHandler);
                 if(!P1.getClass().getName().equals("Model.Human")){ //if there is a bot, prioritize bot in case it's Player 1
-                    botMakeMove();
+                    moveChoice();
                 } //else, simply start with human player
             }else{ //both players are human, no bots
                 board.addBoardClickEventListener(this::boardClickHandler);
@@ -67,13 +67,11 @@ public class BoardController {
         if (!gameDone) {
             moveChoice();
             if(bot) { //if any player is the bot (that is, if bot = true)
-                botMakeMove();
+                moveChoice();
             }
         }
 
-        root.setRoot(state.getCurrentBoard(), state.getTile());
-        tiles = state.convertToCollection(board2D);
-        board.addTiles(tiles);
+        updateBoard();
         if(gameOver(state.getCurrentBoard())){
             gameDone = true;
             results(); //check for game state
@@ -85,6 +83,7 @@ public class BoardController {
             white = tileCounter.eval(board2D, 2);
             System.out.println("black tiles = " + black);
             System.out.println("white tiles = " + white);
+            //P1.avgDuration();
     }
 
     /* -- method for experiments
@@ -97,16 +96,10 @@ public class BoardController {
 
     */
 
-    public void botMakeMove() {
-        moveChoice();
-        root.setRoot(state.getCurrentBoard(), state.getTile());
-        tiles = state.convertToCollection(board2D);
-        board.addTiles(tiles);
-    }
 
     public void playBotGame() {
         while(!gameOver(state.getCurrentBoard())){
-            botMakeMove();
+            moveChoice();
         }
         results(); //check for game state
 
@@ -132,6 +125,11 @@ public class BoardController {
         */
     }
 
+    /*public void botMakeMove() {
+        moveChoice();
+    }
+    */
+
     public boolean gameOver(int[][] board) { //TEMPORAL METHOD, not sure where it should go
         int[][] tempBoard = rules.clone(board);
         int[][] tempBoardTile1 = rules.clone(rules.checkMoves(tempBoard, 1));
@@ -153,5 +151,12 @@ public class BoardController {
         } else {
             P2.makeMove(state);
         }
+        updateBoard();
+    }
+
+    public void updateBoard(){ //update board in graphics every time a move is made
+        root.setRoot(state.getCurrentBoard(), state.getTile());
+        tiles = state.convertToCollection(state.getCurrentBoard());
+        board.addTiles(tiles);
     }
 }

@@ -6,7 +6,8 @@ import java.util.Random;
 public class MonteClappo implements Player {
     Rules rules;
     private int times;
-    int tile;
+    private int tile;
+    private EvalFunction evalFunction;
     private ArrayList<int[]> initialMoves = new ArrayList<>();
 
     public MonteClappo(int tile, int times) {
@@ -15,15 +16,25 @@ public class MonteClappo implements Player {
         rules = new Rules();
     }
 
+    public MonteClappo(int tile, int times, EvalFunction evalFunction) {
+        this.times = times;
+        this.tile = tile;
+        rules = new Rules();
+        this.evalFunction = evalFunction;
+    }
+
+
     @Override
     public void makeMove(State currentState) {
          int[][] currentboard = clone(currentState.getCurrentBoard());
         int[] bestMove = new int[2];
-         double highestWinRate = 0;
+         double highestWinRate = -Double.MAX_VALUE;
         ArrayList<int[][]> boards = getFirstMoves(currentState);
         int size = boards.size();
         for(int i = 0; i < size; i++){
            double winRate = evaluateMove(boards.get(i), tile, times);
+            System.out.println("winRate = " + winRate);
+            System.out.println("highestWinRate = " + highestWinRate);
            if(winRate > highestWinRate){
                highestWinRate = winRate;
                bestMove[0] = initialMoves.get(i)[0];
@@ -56,8 +67,13 @@ public class MonteClappo implements Player {
                 losses++;
             }
         }
-
-        return (wins / (wins + losses)) + 1;
+        if(evalFunction != null) {
+            double evalValue = evalFunction.eval(board, colour);
+            System.out.println("HENLO = " + ((wins / (wins + losses)) + 1 + (evalValue*evalFunction.getEvalWeight())));
+            return ((wins / (wins + losses)) + 1 + (evalValue*evalFunction.getEvalWeight()));
+        }else{
+            return (wins / (wins + losses)) + 1;
+        }
     }
 
     public int[][] playRandomMove(int[][] board, int colour) {

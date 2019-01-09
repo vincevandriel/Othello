@@ -1,12 +1,13 @@
 package Model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Node {
     private int x;
     private int y;
     private int tile;
-    private int evalValue;
+    private double evalValue;
     private Node parent;
     private ArrayList<Node> children;
 
@@ -34,15 +35,19 @@ public class Node {
         return children;
     }
 
+    public void setChildren(ArrayList<Node> newChildren) {
+        children = new ArrayList<>(newChildren);
+    }
+
     public void addChild(Node child) {
         children.add(child);
     }
 
-    public void setEvalValue(int evalValue){
+    public void setEvalValue(double evalValue){
         this.evalValue = evalValue;
     }
 
-    public int getEvalValue(){
+    public double getEvalValue(){
         return evalValue;
     }
 

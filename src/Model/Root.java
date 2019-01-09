@@ -123,8 +123,8 @@ public class Root {
             */
 
         //System.out.println(children.get(0).getChildren().size());
-        for (int i = 0; i < children.get(0).getChildren().get(0).getChildren().size(); i++) {
-            pront(retrieveBoard(children.get(0).getChildren().get(0).getChildren().get(i)));
+        for (int i = 0; i < children.get(0).getChildren().get(0).getChildren().size(); i++) { //uncomment statement within if
+            //pront(retrieveBoard(children.get(0).getChildren().get(0).getChildren().get(i)));
         }
 
     }

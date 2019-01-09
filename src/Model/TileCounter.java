@@ -2,6 +2,8 @@ package Model;
 
 public class TileCounter implements EvalFunction{
 
+    private final double evalWeight = 1;
+
     @Override
     public int eval(int[][] board, int colour) {
         int score = 0;
@@ -18,5 +20,11 @@ public class TileCounter implements EvalFunction{
     }
     public int getMax(int[][] board) {
         return board.length*board.length;
+    }
+
+
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
     }
 }

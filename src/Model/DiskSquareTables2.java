@@ -3,6 +3,7 @@ package Model;
 public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
     //Disk-Square Tables with Opponent Modelling
     private int[][] dst;
+    private final double evalWeight = 0.06;
 
     @Override
     public int eval(int[][] board, int currentColour) {
@@ -30,5 +31,10 @@ public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
         } else {
             return 1;
         }
+    }
+
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
     }
 }
