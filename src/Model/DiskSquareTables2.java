@@ -1,7 +1,7 @@
 package Model;
 
 public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
-    //Disk-Square Tables with Opponent Modelling
+    //Disk-Square Tables which takes the enemy tiles into account
     private int[][] dst;
     private final double evalWeight = 0.06;
 
@@ -17,7 +17,7 @@ public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
             for(int j = 0; j < board[0].length; j++) {
                 if(board[i][j] == currentColour) {
                     result += dst[i][j];
-                } else if(board[i][j] == swaptile(currentColour)){
+                } else if(board[i][j] == swapTile(currentColour)){
                     result -=dst[i][j];
                 }
             }
@@ -25,7 +25,7 @@ public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
         return result;
     }
 
-    public int swaptile(int tile) {
+    public int swapTile(int tile) {
         if(tile == 1){
             return 2;
         } else {

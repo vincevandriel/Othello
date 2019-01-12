@@ -2,6 +2,8 @@ package Model;
 
 public class TileCounter2 implements EvalFunction{
 
+    //This evaluation function uses as score the amount of tiles AND also takes the opponent tiles into account
+
     //This is how much is added to the score for our own tiles.
     final int thisTileValue = 2;
     //This is how much is subtracted from the score for the tiles of the opponent.

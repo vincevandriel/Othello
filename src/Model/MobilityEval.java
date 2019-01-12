@@ -2,14 +2,17 @@ package Model;
 
 public class MobilityEval implements EvalFunction{
 
+    //This evaluation function calculates the score based on amount of moves that can be done later on in the game
+
     private static Rules rules;
     private final double evalWeight = 0.01;
 
+    public MobilityEval() {
+        rules = new Rules();
+    }
+
     @Override
     public int eval(int[][] board, int tile) {
-        if(rules == null) {
-            rules = new Rules();
-        }
         int amount = 0;
         int[][] temp = rules.checkMoves(board, tile);
         for(int i = 0; i < temp.length; i++) {
@@ -21,10 +24,6 @@ public class MobilityEval implements EvalFunction{
         }
         rules.clear3s(temp);
         return amount;
-    }
-
-    public int getMax(int[][] board) {
-        return board.length*board.length;
     }
 
     @Override

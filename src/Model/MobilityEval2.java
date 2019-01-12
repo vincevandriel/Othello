@@ -3,6 +3,8 @@ package Model;
 public class MobilityEval2 implements EvalFunction{
     private static Rules rules;
 
+    //This evaluation function calculates the score based on amount of moves that can be done later on in the game WHILE ALSO taking the enemy moves into account
+
     //This is how much is added to the score for our own tiles.
     final int thisTileValue = 1;
     //This is how much is subtracted from the score for the tiles of the opponent.
@@ -11,11 +13,12 @@ public class MobilityEval2 implements EvalFunction{
     private final double evalWeight = 0.1;
 
 
+    public MobilityEval2() {
+        rules = new Rules();
+    }
+
     @Override
     public int eval(int[][] board, int tile) {
-        if(rules == null) {
-            rules = new Rules();
-        }
         int amount = 0;
         int[][] temp = rules.checkMoves(board, tile);
         for(int i = 0; i < temp.length; i++) {

@@ -1,9 +1,8 @@
 package Model;
 
 public class DiskSquareTables implements EvalFunction{
+    //This is the array holding the values for DiskSquareTables at the respective positions
     private int[][] dst;
-    private int max;
-    private int[][] board;
     private final double  evalWeight = 0.01;
 
     @Override
@@ -21,8 +20,8 @@ public class DiskSquareTables implements EvalFunction{
         return result;
     }
 
+    //If dst not initialized or kept with wrong size, this method makes a new dst
     public void generateDST(int[][] board) {
-        //If Dst not initialized or kept with wrong size, then make board with right size
         if(dst == null || dst.length == board.length) {
             dst = generateDst(board.length);
         }
@@ -33,7 +32,7 @@ public class DiskSquareTables implements EvalFunction{
     public int[][] generateDst(int size) {
         int[][] result = new int[size][size];
 
-        //Values according to this picture given above
+        //Names of the squares and their values according to this picture given above
         int corner = 5;
         int x = -2;
         int c = -1;
@@ -108,17 +107,6 @@ public class DiskSquareTables implements EvalFunction{
 
 
         return result;
-    }
-
-    public int getMax(int[][] board) {
-        generateDST(board);
-        int max = 0;
-        for(int i = 0; i < dst.length; i++) {
-            for(int j = 0; j < dst[i].length; j++) {
-                max += dst[i][j];
-            }
-        }
-        return max;
     }
 
     @Override

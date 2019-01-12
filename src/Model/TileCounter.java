@@ -2,6 +2,8 @@ package Model;
 
 public class TileCounter implements EvalFunction{
 
+    //This evaluation function uses as score the amount of tiles.
+
     private final double evalWeight = 1;
 
     @Override
