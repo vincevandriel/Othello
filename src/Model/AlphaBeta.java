@@ -3,6 +3,7 @@ package Model;
 import Controller.BoardController;
 import View.Board;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -36,14 +37,13 @@ public class AlphaBeta implements Player {
     public void makeMove(State currentState) {
         numMoves++;
         setRoot();
-        killerMoves.clear();
+        orderTree(tempNode, depth, true);
         long startTime = System.nanoTime();
         bestValue = alphaBeta(tempNode, depth, true, Double.MIN_VALUE, Double.MAX_VALUE);
-        System.out.println("bestValue = " + bestValue);
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
-        sumTime = sumTime + duration;
         System.out.println("duration of method = " + duration);
+        sumTime = sumTime + duration;
         int[] coords = findBestPath(possibleMoves, bestValue);
         if(coords == null){
             currentState.switchTile();
@@ -64,9 +64,6 @@ public class AlphaBeta implements Player {
         double max;
 
         if (node.getChildren() == null || depth == 0) {
-            /*if(depth == root.getDepth()-1 && node.getChildren() == null) {
-                possibleMoves.add(node);
-            }*/
             double result = eval(root.retrieveBoard(node), tile);
             double temp = random.nextDouble();
             node.setEvalValue(result + temp);
@@ -82,14 +79,13 @@ public class AlphaBeta implements Player {
                 if(depth == root.getDepth()) {
                     possibleMoves.add(child);
                 }
-                //node.setEvalValue(max);
+                node.setEvalValue(max);
                 if(beta <= alpha) { //add killer moves (nodes) whenever they prune
-                    killerMoves.put((depth - 1), child); //ad// d move which caused pruning deeper
-                    orderChildren(node, depth);
+                    //killerMoves.put((depth - 1), child); //ad// d move which caused pruning deeper
+                    //orderChildren(node, depth);
                     break;
                 }
             }
-            node.setEvalValue(max);
             return max;
         } else {
             min = Double.MAX_VALUE;
@@ -100,15 +96,11 @@ public class AlphaBeta implements Player {
                 child.setEvalValue(eval);
                 node.setEvalValue(min);
                 if(beta <= alpha) {
-                    killerMoves.put((depth-1), child); //add move which caused pruning deeper
-                    orderChildren(node, depth);
+                    //killerMoves.put((depth-1), child); //add move which caused pruning deeper
+                    //orderChildren(node, depth);
                     break;
                 }
             }
-            //node.setEvalValue(min);
-           /* if(depth == root.getDepth()-1) {
-                possibleMoves.add(node);
-            }*/
             return min;
         }
     }
@@ -125,7 +117,7 @@ public class AlphaBeta implements Player {
         return null;
     }
 
-    public void orderChildren(Node node, int depth) {
+   /* public void orderChildren(Node node, int depth) {
         int index = -1; //this is to order nodes based on which one is a killer move in other plays
         int childrenSize = node.getChildren().size();
         ArrayList<Node> tempChildren; //copy to rearrange children
@@ -149,6 +141,48 @@ public class AlphaBeta implements Player {
         }
     }
 
+*/
+
+    public void orderTree(Node node, int depth, boolean maxPlayer){ //order tree
+        ArrayList<Node> children = new ArrayList<>(node.getChildren());
+        if (node.getChildren() == null || depth == 0) {
+            return;
+        }
+        for(Node child : children){
+            child.setEvalValue(eval(root.retrieveBoard(child), tile));
+        }
+        node.setChildren(orderChildren(children, maxPlayer));
+
+            for (Node child : node.getChildren()) {
+                if(maxPlayer) {
+                    orderTree(child, (depth - 1), false);
+                }else{
+                    orderTree(child, (depth - 1), true);
+                }
+            }
+        }
+
+    public ArrayList<Node> orderChildren(ArrayList<Node> children, boolean maxPlayer){ //order children of every parent node
+
+        for (int i = 0; i < children.size(); i++) {
+            for (int j = 0; j < children.size(); j++) {
+                if(maxPlayer) {
+                    if (children.get(i).getEvalValue() > children.get(j).getEvalValue() && (i > j)) {
+                        Node tempNode = children.get(j);
+                        children.set(j, children.get(i));
+                        children.set(i, tempNode);
+                    }
+                }else{
+                    if (children.get(i).getEvalValue() < children.get(j).getEvalValue() && (i > j)) {
+                        Node tempNode = children.get(j);
+                        children.set(j, children.get(i));
+                        children.set(i, tempNode);
+                    }
+                }
+            }
+        }
+        return children;
+    }
 
     public void setRoot(){
         root = new Root(BoardController.root.getBoard(), tile ,depth);

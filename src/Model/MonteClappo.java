@@ -33,8 +33,8 @@ public class MonteClappo implements Player {
         int size = boards.size();
         for(int i = 0; i < size; i++){
            double winRate = evaluateMove(boards.get(i), tile, times);
-            System.out.println("winRate = " + winRate);
-            System.out.println("highestWinRate = " + highestWinRate);
+            //System.out.println("winRate = " + winRate);
+            //System.out.println("highestWinRate = " + highestWinRate);
            if(winRate > highestWinRate){
                highestWinRate = winRate;
                bestMove[0] = initialMoves.get(i)[0];
@@ -44,7 +44,7 @@ public class MonteClappo implements Player {
 
         int[][] tempBoard = currentState.getCurrentBoard();
         if(size == 0) {
-            System.out.print("No possible moves for Monte-Carlo Bot. Switching player.\n");
+            //System.out.print("No possible moves for Monte-Carlo Bot. Switching player.\n");
             currentState.switchTile();
         } else {
             tempBoard[bestMove[0]][bestMove[1]] = tile;
@@ -69,7 +69,7 @@ public class MonteClappo implements Player {
         }
         if(evalFunction != null) {
             double evalValue = evalFunction.eval(board, colour);
-            System.out.println("HENLO = " + ((wins / (wins + losses)) + 1 + (evalValue*evalFunction.getEvalWeight())));
+            //System.out.println("HENLO = " + ((wins / (wins + losses)) + 1 + (evalValue*evalFunction.getEvalWeight())));
             return ((wins / (wins + losses)) + 1 + (evalValue*evalFunction.getEvalWeight()));
         }else{
             return (wins / (wins + losses)) + 1;
