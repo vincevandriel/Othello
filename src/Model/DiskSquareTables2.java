@@ -9,7 +9,7 @@ public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
         this.evalWeight = 0.06;
     }
 
-    public DiskSquareTables2(int evalWeight) {
+    public DiskSquareTables2(double evalWeight) {
         this.evalWeight = evalWeight;
     }
 

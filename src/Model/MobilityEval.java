@@ -12,7 +12,7 @@ public class MobilityEval implements EvalFunction{
         this.evalWeight = 0.01;
     }
 
-    public MobilityEval(int evalWeight) {
+    public MobilityEval(double evalWeight) {
         rules = new Rules();
         this.evalWeight = evalWeight;
     }

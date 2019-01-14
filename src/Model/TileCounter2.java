@@ -14,7 +14,7 @@ public class TileCounter2 implements EvalFunction{
         this.evalWeight = 0.01;
     }
 
-    public TileCounter2(int evalWeight) {
+    public TileCounter2(double evalWeight) {
         this.evalWeight = evalWeight;
     }
 
