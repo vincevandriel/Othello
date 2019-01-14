@@ -5,10 +5,16 @@ public class MobilityEval implements EvalFunction{
     //This evaluation function calculates the score based on amount of moves that can be done later on in the game
 
     private static Rules rules;
-    private final double evalWeight = 0.01;
+    private double evalWeight;
 
     public MobilityEval() {
         rules = new Rules();
+        this.evalWeight = 0.01;
+    }
+
+    public MobilityEval(int evalWeight) {
+        rules = new Rules();
+        this.evalWeight = evalWeight;
     }
 
     @Override

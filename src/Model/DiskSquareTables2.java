@@ -3,7 +3,15 @@ package Model;
 public class DiskSquareTables2 extends DiskSquareTables implements EvalFunction{
     //Disk-Square Tables which takes the enemy tiles into account
     private int[][] dst;
-    private final double evalWeight = 0.06;
+    private double evalWeight;
+
+    public DiskSquareTables2() {
+        this.evalWeight = 0.06;
+    }
+
+    public DiskSquareTables2(int evalWeight) {
+        this.evalWeight = evalWeight;
+    }
 
     @Override
     public int eval(int[][] board, int currentColour) {

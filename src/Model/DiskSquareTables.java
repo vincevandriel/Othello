@@ -3,7 +3,15 @@ package Model;
 public class DiskSquareTables implements EvalFunction{
     //This is the array holding the values for DiskSquareTables at the respective positions
     private int[][] dst;
-    private final double  evalWeight = 0.01;
+    private double evalWeight;
+
+    public DiskSquareTables() {
+        this.evalWeight = 0.01;
+    }
+
+    public DiskSquareTables(int evalWeight) {
+        this.evalWeight = evalWeight;
+    }
 
     @Override
     public int eval(int[][] board, int currentColour) {
@@ -20,15 +28,24 @@ public class DiskSquareTables implements EvalFunction{
         return result;
     }
 
-    //If dst not initialized or kept with wrong size, this method makes a new dst
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
+    }
+
+    //We only want one dst array at a time. If dst not initialized or kept with wrong size for some reason, this method makes a new dst
     public void generateDST(int[][] board) {
         if(dst == null || dst.length == board.length) {
             dst = generateDst(board.length);
         }
     }
 
-    //Based on: https://goo.gl/wCBa4K
-    //Size must be even and 4 or larger!
+    /*
+    This actually generates the dst array
+    Based on: https://goo.gl/wCBa4K
+    SIZE MUST BE EVEN AND 4 OR LARGER!
+     */
+
     public int[][] generateDst(int size) {
         int[][] result = new int[size][size];
 
@@ -107,10 +124,5 @@ public class DiskSquareTables implements EvalFunction{
 
 
         return result;
-    }
-
-    @Override
-    public double getEvalWeight(){
-        return evalWeight;
     }
 }

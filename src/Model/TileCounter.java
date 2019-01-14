@@ -4,7 +4,15 @@ public class TileCounter implements EvalFunction{
 
     //This evaluation function uses as score the amount of tiles.
 
-    private final double evalWeight = 1;
+    private double evalWeight;
+
+    public TileCounter(){
+        evalWeight = 0.01;
+    }
+
+    public TileCounter(int evalWeight){
+        this.evalWeight = evalWeight;
+    }
 
     @Override
     public int eval(int[][] board, int colour) {

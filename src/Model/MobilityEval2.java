@@ -2,19 +2,22 @@ package Model;
 
 public class MobilityEval2 implements EvalFunction{
     private static Rules rules;
+    private double evalWeight;
 
     //This evaluation function calculates the score based on amount of moves that can be done later on in the game WHILE ALSO taking the enemy moves into account
-
     //This is how much is added to the score for our own tiles.
     final int thisTileValue = 1;
     //This is how much is subtracted from the score for the tiles of the opponent.
     final int opponentTileValue = 1;
 
-    private final double evalWeight = 0.1;
-
-
     public MobilityEval2() {
         rules = new Rules();
+        this.evalWeight = 0.01;
+    }
+
+    public MobilityEval2(int evalWeight) {
+        rules = new Rules();
+        this.evalWeight = evalWeight;
     }
 
     @Override
@@ -42,20 +45,16 @@ public class MobilityEval2 implements EvalFunction{
         return amount;
     }
 
+    @Override
+    public double getEvalWeight(){
+        return evalWeight;
+    }
+
     public int swaptile(int tile) {
         if(tile == 1){
             return 2;
         } else {
             return 1;
         }
-    }
-
-    public int getMax(int[][] board) {
-        return board.length*board.length*thisTileValue;
-    }
-
-    @Override
-    public double getEvalWeight(){
-        return evalWeight;
     }
 }

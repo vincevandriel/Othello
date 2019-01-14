@@ -4,7 +4,7 @@ import Model.*;
 import View.Board;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+
 public class BoardController {
 
     public static Root root;
@@ -17,14 +17,18 @@ public class BoardController {
     private ArrayList<Tile> tiles;
     private int[][] board2D;
     private TileCounter tileCounter;
-    //private boolean notDone = false;
-    //private int blackWin = 0;
-    //private int whiteWin = 0;
-    //private int tie = 0;
     private int black = 0;
     private int white = 0;
     private boolean bot;
-    //private ArrayList<int[]> winLoss = new ArrayList<>();
+
+    //Uncomment the following lines for testing
+    /*
+    private boolean notDone = false;
+    private int blackWin = 0;
+    private int whiteWin = 0;
+    private int tie = 0;
+    private ArrayList<int[]> winLoss = new ArrayList<>();
+     */
 
     public void start(Board board) {
         this.board = board;
@@ -78,6 +82,21 @@ public class BoardController {
         }
     }
 
+    public void moveChoice() {  //who will be making the next move
+        if (state.getTile() == 1) {
+            P1.makeMove(state);
+        } else {
+            P2.makeMove(state);
+        }
+        updateBoard();
+    }
+
+    public void updateBoard(){ //update board in graphics every time a move is made
+        root.setRoot(state.getCurrentBoard(), state.getTile());
+        tiles = state.convertToCollection(state.getCurrentBoard());
+        board.addTiles(tiles);
+    }
+
     public void results() {
             black = tileCounter.eval(board2D, 1);
             white = tileCounter.eval(board2D, 2);
@@ -86,7 +105,9 @@ public class BoardController {
             //P1.avgDuration();
     }
 
-    /* -- method for experiments
+    //Uncomment the following lines for testing
+
+    /*
 
     public void printResults(){
         System.out.println("games won by player 1 (black) = " + blackWin);
@@ -103,9 +124,12 @@ public class BoardController {
         }
         results(); //check for game state
 
-       /* --- This section will simply reset the board and give info on number of games won by each player
-          --- (when we want to play n number of games)
+        /*
+        This section will simply reset the board and give info on number of games won by each player (when we want to play n number of games)
+        Uncomment the following lines for testing
+         */
 
+       /*
         if(black>white){
             blackWin++;
         }else if(white>black){
@@ -143,20 +167,5 @@ public class BoardController {
             }
         }
         return true;
-    }
-
-    public void moveChoice() {  //who will be making the next move
-        if (state.getTile() == 1) {
-            P1.makeMove(state);
-        } else {
-            P2.makeMove(state);
-        }
-        updateBoard();
-    }
-
-    public void updateBoard(){ //update board in graphics every time a move is made
-        root.setRoot(state.getCurrentBoard(), state.getTile());
-        tiles = state.convertToCollection(state.getCurrentBoard());
-        board.addTiles(tiles);
     }
 }

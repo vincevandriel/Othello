@@ -1,14 +1,22 @@
 package Model;
 
+//This evaluation function uses as score the amount of tiles AND also takes the opponent tiles into account
 public class TileCounter2 implements EvalFunction{
 
-    //This evaluation function uses as score the amount of tiles AND also takes the opponent tiles into account
+    private double evalWeight;
 
     //This is how much is added to the score for our own tiles.
     final int thisTileValue = 2;
     //This is how much is subtracted from the score for the tiles of the opponent.
     final int opponentTileValue = 1;
-    private final double evalWeight = 0.1;
+
+    public TileCounter2() {
+        this.evalWeight = 0.01;
+    }
+
+    public TileCounter2(int evalWeight) {
+        this.evalWeight = evalWeight;
+    }
 
     @Override
     public int eval(int[][] board, int colour) {

@@ -37,13 +37,15 @@ public class AlphaBeta implements Player {
     public void makeMove(State currentState) {
         numMoves++;
         setRoot();
+        bestValue = alphaBeta(tempNode, depth, true, Double.MIN_VALUE, Double.MAX_VALUE);
+        /*
         orderTree(tempNode, depth, true);
         long startTime = System.nanoTime();
-        bestValue = alphaBeta(tempNode, depth, true, Double.MIN_VALUE, Double.MAX_VALUE);
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
         System.out.println("duration of method = " + duration);
         sumTime = sumTime + duration;
+        */
         int[] coords = findBestPath(possibleMoves, bestValue);
         if(coords == null){
             currentState.switchTile();
