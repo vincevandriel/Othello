@@ -28,9 +28,6 @@ public class BoardController {
     private int whiteWin = 0;
     private int tie = 0;
 
-    //private ArrayList<int[]> winLoss = new ArrayList<>();
-
-
     public void start(Board board) {
         this.board = board;
         board2D = new int[board.getBlockSize()][board.getBlockSize()];
@@ -83,7 +80,8 @@ public class BoardController {
         }
     }
 
-    public void moveChoice() {  //who will be making the next move
+    //who will be making the next move
+    public void moveChoice() {
         if (state.getTile() == 1) {
             P1.makeMove(state);
         } else {
@@ -92,7 +90,8 @@ public class BoardController {
         updateBoard();
     }
 
-    public void updateBoard(){ //update board in graphics every time a move is made
+    //update board in graphics every time a move is made
+    public void updateBoard(){
         root.setRoot(state.getCurrentBoard(), state.getTile());
         tiles = state.convertToCollection(state.getCurrentBoard());
         board.addTiles(tiles);
@@ -146,11 +145,6 @@ public class BoardController {
         black = 0;
         white = 0;
     }
-
-    /*public void botMakeMove() {
-        moveChoice();
-    }
-    */
 
     public boolean gameOver(int[][] board) { //TEMPORAL METHOD, not sure where it should go
         int[][] tempBoard = rules.clone(board);

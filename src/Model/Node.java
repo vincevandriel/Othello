@@ -34,19 +34,15 @@ public class Node {
     public ArrayList<Node> getChildren() {
         return children;
     }
-
     public void setChildren(ArrayList<Node> newChildren) {
         children = new ArrayList<>(newChildren);
     }
-
     public void addChild(Node child) {
         children.add(child);
     }
-
     public void setEvalValue(double evalValue){
         this.evalValue = evalValue;
     }
-
     public double getEvalValue(){
         return evalValue;
     }

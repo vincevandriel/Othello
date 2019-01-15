@@ -17,9 +17,7 @@ public class Human implements Player {
         int x = currentState.getX();
         int y = currentState.getY();
 
-        //rules.pront(currentState.getCurrentBoard()); //UNCOMMENT THIS TO SEE BOARD
-
-        int[][] board2D = currentState.getCurrentBoard(); //get current state
+        int[][] board2D = currentState.getCurrentBoard();
         board2D = rules.checkMoves(board2D, tile);
         if (rules.moveStatus(board2D, x, y) == 1) {
             board2D = rules.clear3s(board2D); //clear possible legal spots (marked as 3s)

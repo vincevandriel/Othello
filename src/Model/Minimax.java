@@ -49,11 +49,6 @@ public class Minimax implements Player {
         int value;
 
         if (node.getChildren() == null || depth == 0) {
-            /*
-            if(depth == root.getDepth()-1) {
-                possibleMoves.add(node);
-            }
-            */
             int result = eval(root.retrieveBoard(node), root.getTile());
             node.setEvalValue(result);
             return result;

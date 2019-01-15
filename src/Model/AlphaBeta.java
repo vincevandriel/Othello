@@ -13,8 +13,12 @@ public class AlphaBeta implements Player {
 
     public Root root;
     private int tile;
+
+    /* //variables for testing
     private long numMoves = 0;
     private long sumTime = 0;
+    */
+
     private int depth;
     private Rules rules;
     private Node tempNode;
@@ -22,7 +26,6 @@ public class AlphaBeta implements Player {
     private double bestValue;
     private boolean random;
     private EvalFunction evalFunction;
-    private HashMap<Integer, Node> killerMoves =  new HashMap<>();
 
     public AlphaBeta(EvalFunction evalFunction, int tile, int depth, boolean random){
         this.random = random;
@@ -38,19 +41,25 @@ public class AlphaBeta implements Player {
 
     @Override
     public void makeMove(State currentState) {
-        numMoves++;
+
         setRoot();
         bestValue = alphaBeta(tempNode, depth, true, Double.MIN_VALUE, Double.MAX_VALUE);
-        /*
+
+        /* //order tree to improve alphabeta runtime
         orderTree(tempNode, depth, true);
+        */
+
+        /* //add timer to measure runtime of any method
+        numMoves++;
         long startTime = System.nanoTime();
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
         System.out.println("duration of method = " + duration);
         sumTime = sumTime + duration;
         */
+
         int[] coords = findBestPath(possibleMoves, bestValue);
-        if(coords == null){
+        if(coords == null) {
             currentState.switchTile();
             return;
         }
@@ -77,6 +86,7 @@ public class AlphaBeta implements Player {
             node.setEvalValue(result + temp);
             return (result + temp);
         }
+
         if (max_player) {
             max = -Double.MAX_VALUE;
             for (Node child : node.getChildren()) {
@@ -88,9 +98,7 @@ public class AlphaBeta implements Player {
                     possibleMoves.add(child);
                 }
                 node.setEvalValue(max);
-                if(beta <= alpha) { //add killer moves (nodes) whenever they prune
-                    //killerMoves.put((depth - 1), child); //ad// d move which caused pruning deeper
-                    //orderChildren(node, depth);
+                if(beta <= alpha) {
                     break;
                 }
             }
@@ -104,8 +112,6 @@ public class AlphaBeta implements Player {
                 child.setEvalValue(eval);
                 node.setEvalValue(min);
                 if(beta <= alpha) {
-                    //killerMoves.put((depth-1), child); //add move which caused pruning deeper
-                    //orderChildren(node, depth);
                     break;
                 }
             }
@@ -113,6 +119,7 @@ public class AlphaBeta implements Player {
         }
     }
 
+    //find the best move based on scores
     public int[] findBestPath(ArrayList<Node> possibleMoves, double bestValue){
         for(int i = 0; i < possibleMoves.size(); i++){
             if(possibleMoves.get(i).getEvalValue() == bestValue){
@@ -125,33 +132,8 @@ public class AlphaBeta implements Player {
         return null;
     }
 
-   /* public void orderChildren(Node node, int depth) {
-        int index = -1; //this is to order nodes based on which one is a killer move in other plays
-        int childrenSize = node.getChildren().size();
-        ArrayList<Node> tempChildren; //copy to rearrange children
-
-        if (node.getChildren() != null) {
-
-            tempChildren = new ArrayList<>(node.getChildren());
-
-            for (int i = 0; i < tempChildren.size(); i++) {
-
-                if (tempChildren.get(i) == killerMoves.get(depth - 1)) {
-                    index = i; //set index to swap orders
-                }
-            }
-            if (index > 0) {
-                Node tempNode = tempChildren.get(0);
-                tempChildren.set(0, killerMoves.get(depth - 1));
-                tempChildren.set(index, tempNode);
-                node.setChildren(tempChildren);
-            }
-        }
-    }
-
-*/
-
-    public void orderTree(Node node, int depth, boolean maxPlayer){ //order tree
+    //sets scores for every node and calls method to order them
+    public void orderTree(Node node, int depth, boolean maxPlayer){
         ArrayList<Node> children = new ArrayList<>(node.getChildren());
         if (node.getChildren() == null || depth == 0) {
             return;
@@ -170,7 +152,8 @@ public class AlphaBeta implements Player {
             }
         }
 
-    public ArrayList<Node> orderChildren(ArrayList<Node> children, boolean maxPlayer){ //order children of every parent node
+    //order children of every parent node
+    public ArrayList<Node> orderChildren(ArrayList<Node> children, boolean maxPlayer){
 
         for (int i = 0; i < children.size(); i++) {
             for (int j = 0; j < children.size(); j++) {
@@ -192,8 +175,9 @@ public class AlphaBeta implements Player {
         return children;
     }
 
+    //create a new root every time a new move is made
     public void setRoot(){
-        root = new Root(BoardController.root.getBoard(), tile ,depth);
+        root = new Root(Test.root.getBoard(), tile ,depth);
         possibleMoves = new ArrayList<>();
         tempNode = new Node(null, -1, -1, tile);
          for(int i = 0; i < root.getChildren().size(); i++) {
@@ -201,8 +185,12 @@ public class AlphaBeta implements Player {
         }
     }
 
+    /*  //METHOD FOR TESTING
+
     public void avgDuration(){
         long duration =  (sumTime / numMoves);
         System.out.println("Average length = " + duration);
     }
+
+    */
 }
