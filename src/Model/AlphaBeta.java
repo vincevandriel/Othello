@@ -193,7 +193,7 @@ public class AlphaBeta implements Player {
     }
 
     public void setRoot(){
-        root = new Root(Test.root.getBoard(), tile ,depth);
+        root = new Root(BoardController.root.getBoard(), tile ,depth);
         possibleMoves = new ArrayList<>();
         tempNode = new Node(null, -1, -1, tile);
          for(int i = 0; i < root.getChildren().size(); i++) {
