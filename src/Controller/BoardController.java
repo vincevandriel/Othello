@@ -22,13 +22,14 @@ public class BoardController {
     private boolean bot;
 
     //Uncomment the following lines for testing
-    /*
+
     private boolean notDone = false;
     private int blackWin = 0;
     private int whiteWin = 0;
     private int tie = 0;
-    private ArrayList<int[]> winLoss = new ArrayList<>();
-     */
+
+    //private ArrayList<int[]> winLoss = new ArrayList<>();
+
 
     public void start(Board board) {
         this.board = board;
@@ -42,7 +43,7 @@ public class BoardController {
         board.addTiles(tiles);
         root = new Root(board2D, 1, 5);
         P1 = new MonteClappo(1, 100, new DiskSquareTables2()); //black tiles, bot
-        P2 = new AlphaBeta(new DiskSquareTables2(),2,7); //black tiles, bot
+        P2 = new AlphaBeta(new DiskSquareTables2(),2,7, false); //black tiles, bot
 
         if (P1.getClass().getName().equals("Model.Human") || P2.getClass().getName().equals("Model.Human")) { //if there's at least one human
             if(!P1.getClass().getName().equals("Model.Human") || !P2.getClass().getName().equals("Model.Human")){ //if there's a human and a bot (in any order)
@@ -129,7 +130,6 @@ public class BoardController {
         Uncomment the following lines for testing
          */
 
-       /*
         if(black>white){
             blackWin++;
         }else if(white>black){
@@ -145,8 +145,6 @@ public class BoardController {
         root.setRoot(state.getCurrentBoard(), state.getTile());
         black = 0;
         white = 0;
-
-        */
     }
 
     /*public void botMakeMove() {

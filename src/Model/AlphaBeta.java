@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.BoardController;
+import Controller.Test;
 import View.Board;
 
 import java.lang.reflect.Array;
@@ -19,10 +20,12 @@ public class AlphaBeta implements Player {
     private Node tempNode;
     private ArrayList<Node> possibleMoves;
     private double bestValue;
+    private boolean random;
     private EvalFunction evalFunction;
     private HashMap<Integer, Node> killerMoves =  new HashMap<>();
 
-    public AlphaBeta(EvalFunction evalFunction, int tile, int depth){
+    public AlphaBeta(EvalFunction evalFunction, int tile, int depth, boolean random){
+        this.random = random;
         this.tile = tile;
         this.depth = depth;
         rules = new Rules();
@@ -60,14 +63,17 @@ public class AlphaBeta implements Player {
 
     public double alphaBeta(Node node, int depth, boolean max_player, double alpha, double beta) {
 
-        Random random = new Random();
+        Random y = new Random();
 
         double min;
         double max;
 
         if (node.getChildren() == null || depth == 0) {
             double result = eval(root.retrieveBoard(node), tile);
-            double temp = random.nextDouble();
+            double temp = 0;
+            if(random) {
+                 temp = y.nextDouble();
+            }
             node.setEvalValue(result + temp);
             return (result + temp);
         }
@@ -187,7 +193,7 @@ public class AlphaBeta implements Player {
     }
 
     public void setRoot(){
-        root = new Root(BoardController.root.getBoard(), tile ,depth);
+        root = new Root(Test.root.getBoard(), tile ,depth);
         possibleMoves = new ArrayList<>();
         tempNode = new Node(null, -1, -1, tile);
          for(int i = 0; i < root.getChildren().size(); i++) {
