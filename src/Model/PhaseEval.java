@@ -2,15 +2,21 @@ package Model;
 
 public class PhaseEval implements EvalFunction{
 
+    //This holds the current phase and is initialized at -1. However, this value should normally never reached since there are 0 to n-1 phases (where n is the amount of the evalFunctions given in the constructor)
     int phase = -1;
+    //This is the evaluationfunctions to be used in each phase. This means, the amount of phases is equal to the amount of evalFunctions! However, most people divide the game into 3 phases.
     EvalFunction[] evalfunctions;
     double evalWeight;
 
+    //No custom evalFunctions
     public PhaseEval() {
-        evalfunctions = new EvalFunction[]{new MobilityEval(), new MobilityEval(), new TileCounter()};
+        MobilityEval mobilityEval = new MobilityEval();
+        TileCounter tileCounter = new TileCounter(2, 1);
+        evalfunctions = new EvalFunction[]{mobilityEval, mobilityEval, tileCounter};
         evalWeight = 1;
     }
 
+    //custom evalFunctions
     public PhaseEval(EvalFunction[] evalFunctions) {
         this.evalfunctions = evalFunctions;
     }
