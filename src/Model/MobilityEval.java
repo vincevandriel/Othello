@@ -12,16 +12,16 @@ public class MobilityEval implements EvalFunction{
     private int opponentPlayerValue;
 
     public MobilityEval() {
-        this.thisPlayerValue = 1;
-        this.opponentPlayerValue = 0;
+        this.thisPlayerValue = 2;
+        this.opponentPlayerValue = 1;
         rules = new Rules();
-        this.evalWeight = 0.01;
+        this.evalWeight = 0.02;
     }
 
     //custom evalWeight
     public MobilityEval(double evalWeight) {
-        this.thisPlayerValue = 1;
-        this.opponentPlayerValue = 0;
+        this.thisPlayerValue = 2;
+        this.opponentPlayerValue = 1;
         rules = new Rules();
         this.evalWeight = evalWeight;
     }
@@ -31,7 +31,7 @@ public class MobilityEval implements EvalFunction{
         this.thisPlayerValue = thisTileValue;
         this.opponentPlayerValue = opponentTileValue;
         rules = new Rules();
-        this.evalWeight = 0.01;
+        this.evalWeight = 0.02;
     }
 
     //custom tileValues AND evalWeight
