@@ -1,11 +1,7 @@
 package Model;
 
 import Controller.BoardController;
-import Controller.Test;
-import View.Board;
 
-import java.lang.reflect.Array;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.Random;
 

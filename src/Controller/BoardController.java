@@ -39,8 +39,8 @@ public class BoardController {
         tiles = state.convertToCollection(board2D);
         board.addTiles(tiles);
         root = new Root(board2D, 1, 5);
-        P1 = new MonteClappo(1, 100, new DiskSquareTables2()); //black tiles, bot
-        P2 = new AlphaBeta(new DiskSquareTables2(),2,7, false); //black tiles, bot
+        P1 = new MonteClappo(1, 50, new DiskSquareTables2()); //black tiles, bot
+        P2 = new AlphaBeta(new DiskSquareTables2(),2,5, false); //black tiles, bot
 
         if (P1.getClass().getName().equals("Model.Human") || P2.getClass().getName().equals("Model.Human")) { //if there's at least one human
             if(!P1.getClass().getName().equals("Model.Human") || !P2.getClass().getName().equals("Model.Human")){ //if there's a human and a bot (in any order)

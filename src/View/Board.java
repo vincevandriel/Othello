@@ -20,12 +20,19 @@ public class Board extends JPanel{
     private static Image[] tileImages = null;
     private Collection<Tile> tiles;
     private ArrayList<Consumer<Dimension>> listener = new ArrayList<>();
-    private static final int blockSize = 8;
+    private boolean tenxten = Window.isTenxten();
+    private static int blockSize;
     public Board(Dimension size){
         super();
         if(background == null){
             try{
-            background = ImageIO.read(new File("assets/Othello_Board.png"));
+                if(tenxten) {
+                    background = ImageIO.read(new File("assets/Othello_Board_10x10.png"));
+                    blockSize = 10;
+                } else {
+                    background = ImageIO.read(new File("assets/Othello_Board.png"));
+                    blockSize = 8;
+                }
             } catch (IOException e){
                 System.out.println("Board loading failed...");
             }

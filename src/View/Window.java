@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class Window {
     private JFrame frame;
+    private static boolean tenxten = false;
 
     public Window(){
         this.frame = new JFrame("Othello");
@@ -17,7 +18,14 @@ public class Window {
 
     public void displayBoard(Board board){
         frame.setLayout(new BorderLayout());
-        Dimension size = new Dimension(477,500);
+        Dimension size;
+        if(!tenxten) {
+            size = new Dimension(477, 500);
+
+        }
+        else{
+            size = new Dimension(577,600);
+        }
         frame.setPreferredSize(size);
         frame.add(board);
         frame.pack();
@@ -27,4 +35,7 @@ public class Window {
         this.frame.setVisible(visible);
     }
 
+    public static boolean isTenxten(){
+        return tenxten;
+    }
 }
